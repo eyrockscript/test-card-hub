@@ -1,0 +1,107 @@
+html {
+  width: 400px;  
+  height: 600px; 
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  font-size: 1em; 
+}
+
+.container {
+  padding: 20px;
+  max-width: 600px; 
+  margin: 0 auto;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+code {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.card {
+  background: linear-gradient(135deg, #1e1e1e, #3c3c3c);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 20px;
+  position: relative;
+  transition: background-color 0.3s ease;
+  height: 150px;
+}
+
+.card:hover {
+  background: linear-gradient(135deg, #2c2c2c, #4c4c4c);
+}
+
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: #c0c0c0;
+  border-radius: 5px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.card-logo {
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.card-number {
+  font-size: 1.2em; 
+  letter-spacing: 2px;
+  margin-top: 60px;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.card-response {
+  font-size: 1em; 
+  opacity: 0.8;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.notification {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
+  max-width: 600px; 
+  width: 100%;
+  text-align: center;
+}
+
+.notification.show {
+  opacity: 1;
+}
