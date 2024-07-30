@@ -7,51 +7,27 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
+  <nav id="environment-nav">
+    <!-- Los ambientes se cargarán dinámicamente aquí -->
+  </nav>
+  <div id="main-container" class="container">
     <h1>Tarjetas de Crédito de Prueba</h1>
     <code>Puedes usar cualquier [Código postal, CVV, Fecha de expiración] para realizar la prueba.</code>
-    <div class="card" data-card-number="5451951574925480">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">5451 9515 7492 5480</p>
-      <p class="card-response">Transacción aprobada</p>
+    <div id="cards-container">
+      <!-- Las tarjetas se cargarán dinámicamente aquí -->
     </div>
-    <div class="card" data-card-number="4574441215190335">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4574 4412 1519 0335</p>
-      <p class="card-response">Tarjeta no válida</p>
-    </div>
-    <div class="card" data-card-number="4349003000047015">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4349 0030 0004 7015</p>
-      <p class="card-response">Tarjeta no válida</p>
-    </div>
-    <div class="card" data-card-number="4349008516656431">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4349 0085 1665 6431</p>
-      <p class="card-response">Tarjeta no compatible</p>
-    </div>
-    <div class="card" data-card-number="4349001210846432">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4349 0012 1084 6432</p>
-      <p class="card-response">Tarjeta sin fondos</p>
-    </div>
-    <div class="card" data-card-number="4349003243371321">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4349 0032 4337 1321</p>
-      <p class="card-response">Imposible verificar CVV</p>
-    </div>
-    <div class="card" data-card-number="4349001386781322">
-      <div class="card-chip"></div>
-      <img class="card-logo" src="visa-logo.png" alt="Visa">
-      <p class="card-number">4349 0013 8678 1322</p>
-      <p class="card-response">Tarjeta bloqueada por el banco</p>
-    </div>
+  </div>
+  <div id="import-container" class="container hidden">
+    <h1>Agregar Nuevo Ambiente</h1>
+    <textarea id="json-input" placeholder="Pega aquí el JSON para importar nuevas tarjetas"></textarea>
+    <button id="import-button">Importar tarjetas</button>
+    <button id="cancel-import-button">Cancelar</button>
+  </div>
+  <div id="edit-container" class="container hidden">
+    <h1>Editar Ambientes</h1>
+    <!-- Los ambientes se cargarán dinámicamente aquí para editar -->
+    <button id="save-edit-button">Guardar cambios</button>
+    <button id="cancel-edit-button">Cancelar</button>
   </div>
   <div id="notification" class="notification"></div>
   <script src="popup.js"></script>

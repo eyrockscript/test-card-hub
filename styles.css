@@ -32,6 +32,36 @@ code {
   border-radius: 5px;
 }
 
+#environment-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+#environment-nav button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#environment-nav button:hover {
+  opacity: 0.8;
+}
+
+#add-environment-button {
+  background-color: #2196F3;
+}
+
+#edit-environment-button {
+  background-color: #FFC107;
+}
+
 .card {
   background: linear-gradient(135deg, #1e1e1e, #3c3c3c);
   border-radius: 15px;
@@ -104,4 +134,143 @@ code {
 
 .notification.show {
   opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+#import-container {
+  text-align: center;
+}
+
+#json-input {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#import-button, #cancel-import-button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#cancel-import-button {
+  background-color: #f44336;
+}
+
+#import-button:hover {
+  background-color: #45a049;
+}
+
+#cancel-import-button:hover {
+  background-color: #da190b;
+}
+
+#edit-container {
+  text-align: left;
+}
+
+#edit-container div {
+  margin-bottom: 10px;
+}
+
+.env-name {
+  width: 40%;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.edit-json, .delete-env {
+  margin-right: 5px;
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-json {
+  background-color: #2196F3;
+}
+
+.edit-json:hover {
+  background-color: #0b7dda;
+}
+
+.delete-env {
+  background-color: #f44336;
+}
+
+.delete-env:hover {
+  background-color: #da190b;
+}
+
+.json-edit {
+  width: 100%;
+  height: 200px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#save-edit-button, #cancel-edit-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#cancel-edit-button {
+  background-color: #f44336;
+  margin-left: 10px;
+}
+
+#save-edit-button:hover {
+  background-color: #45a049;
+}
+
+#cancel-edit-button:hover {
+  background-color: #da190b;
+}
+
+.edit-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.edit-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#save-edit-button {
+  background-color: #4CAF50;
+}
+
+#cancel-edit-button {
+  background-color: #f44336;
+}
+
+#save-edit-button:hover {
+  background-color: #45a049;
+}
+
+#cancel-edit-button:hover {
+  background-color: #da190b;
 }

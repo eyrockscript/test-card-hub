@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tarjetas de Crédito de Prueba",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Extensión para copiar números de tarjeta de crédito de prueba al portapapeles.",
   "action": {
     "default_popup": "popup.html",
@@ -12,6 +12,7 @@
     }
   },
   "permissions": [
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ]
 }
