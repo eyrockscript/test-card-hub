@@ -1,6 +1,6 @@
 html {
-  width: 400px;  
-  height: 600px; 
+  width: 300px;
+  height: 450px;
 }
 
 body {
@@ -8,46 +8,50 @@ body {
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
-  font-size: 1em; 
+  font-size: 1em;
 }
 
 .container {
-  padding: 20px;
-  max-width: 600px; 
+  padding: 10px;
+  max-width: 300px;
   margin: 0 auto;
 }
 
 h1 {
   color: #333;
   text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 10px;
 }
 
 code {
   display: block;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #fff;
   background-color: #333;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
 }
 
 #environment-nav {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
   overflow-x: auto;
 }
 
 #environment-nav button {
-  margin: 0 5px;
-  padding: 5px 10px;
+  margin: 0 3px;
+  padding: 3px 6px;
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
   white-space: nowrap;
+  font-size: 0.9em;
 }
 
 #environment-nav button:hover {
@@ -64,18 +68,21 @@ code {
 
 .card {
   background: linear-gradient(135deg, #1e1e1e, #3c3c3c);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   color: #fff;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
   position: relative;
   transition: background-color 0.3s ease;
-  height: 150px;
+  height: 120px;
+  width: 230px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card:hover {
@@ -83,35 +90,35 @@ code {
 }
 
 .card-chip {
-  width: 40px;
-  height: 30px;
+  width: 20px;
+  height: 15px;
   background: #c0c0c0;
-  border-radius: 5px;
+  border-radius: 3px;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
 }
 
 .card-logo {
-  width: 50px;
+  width: 30px;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
 }
 
 .card-number {
-  font-size: 1.2em; 
-  letter-spacing: 2px;
-  margin-top: 60px;
-  margin-left: 20px;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  margin-top: 35px;
+  margin-left: 10px;
   text-align: left;
 }
 
 .card-response {
-  font-size: 1em; 
+  font-size: 0.9em;
   opacity: 0.8;
   text-align: left;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .notification {
@@ -121,15 +128,16 @@ code {
   transform: translateX(-50%);
   background-color: #4caf50;
   color: white;
-  padding: 10px;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  padding: 5px;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
   opacity: 0;
   transition: opacity 0.3s;
   z-index: 1000;
-  max-width: 600px; 
+  max-width: 280px;
   width: 100%;
   text-align: center;
+  font-size: 0.9em;
 }
 
 .notification.show {
@@ -146,21 +154,23 @@ code {
 
 #json-input {
   width: 100%;
-  height: 200px;
+  height: 150px;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
 }
 
 #import-button, #cancel-import-button {
-  padding: 10px 20px;
-  margin: 0 10px;
+  padding: 5px 10px;
+  margin: 0 5px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 #cancel-import-button {
@@ -180,21 +190,23 @@ code {
 }
 
 #edit-container div {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .env-name {
   width: 40%;
-  margin-right: 10px;
-  padding: 5px;
+  margin-right: 5px;
+  padding: 3px;
+  font-size: 0.9em;
 }
 
 .edit-json, .delete-env {
-  margin-right: 5px;
-  padding: 5px 10px;
+  margin-right: 3px;
+  padding: 3px 6px;
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 .edit-json {
@@ -215,26 +227,28 @@ code {
 
 .json-edit {
   width: 100%;
-  height: 200px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 10px;
+  height: 150px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
 }
 
 #save-edit-button, #cancel-edit-button {
-  margin-top: 20px;
-  padding: 10px 20px;
+  margin-top: 10px;
+  padding: 5px 10px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 #cancel-edit-button {
   background-color: #f44336;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 #save-edit-button:hover {
@@ -246,17 +260,18 @@ code {
 }
 
 .edit-buttons {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
 }
 
 .edit-buttons button {
-  margin: 0 10px;
-  padding: 10px 20px;
+  margin: 0 5px;
+  padding: 5px 10px;
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 #save-edit-button {
