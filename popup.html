@@ -19,7 +19,18 @@
   </div>
   <div id="import-container" class="container hidden">
     <h1>Agregar Nuevo Ambiente</h1>
-    <textarea id="json-input" placeholder="Pega aquí el JSON para importar nuevas tarjetas"></textarea>
+    <textarea id="json-input" placeholder="Pega aquí el JSON para importar nuevas tarjetas">
+      {
+        "environment": "example",
+        "cards": [
+          {
+            "cardNumber": "5451951574925480",
+            "cardNumberDisplay": "5451951574925480",
+            "cardResponse": "Example Transacción aprobada"
+          }
+        ]
+      }
+    </textarea>
     <button id="import-button">Importar tarjetas</button>
     <button id="cancel-import-button">Cancelar</button>
   </div>

@@ -31,7 +31,7 @@ function loadEnvironments() {
   } else {
     environments = [
       {
-        environment: "development",
+        environment: "default",
         color: getRandomDarkColor(),
         cards: [
           {
@@ -137,7 +137,7 @@ function createCardElement(card) {
   cardDiv.innerHTML = `
     <div class="card-chip"></div>
     <img class="card-logo" src="${
-      card.cardLogo || defaultLogo
+      defaultLogo
     }" alt="Card Logo">
     <p class="card-number">${card.cardNumberDisplay}</p>
     <p class="card-response">${card.cardResponse}</p>
@@ -194,6 +194,7 @@ function importCards() {
         throw new Error("Ya existe un ambiente con este nombre");
       }
       newEnvironment.color = getRandomDarkColor();
+      newEnvironment.cardLogo= defaultLogo;
       environments.push(newEnvironment);
       saveEnvironments();
       renderEnvironmentNav();
