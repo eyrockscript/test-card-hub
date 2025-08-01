@@ -18,29 +18,67 @@
     </div>
   </div>
   <div id="import-container" class="container hidden">
-    <h1>Agregar Nuevo Ambiente</h1>
-    <textarea id="json-input" placeholder="Pega aquí el JSON para importar nuevas tarjetas">
-      {
-        "environment": "example",
-        "cards": [
-          {
-            "cardNumber": "5451951574925480",
-            "cardNumberDisplay": "5451951574925480",
-            "cardResponse": "Example Transacción aprobada"
-          }
-        ]
-      }
-    </textarea>
-    <button id="import-button">Importar tarjetas</button>
-    <button id="cancel-import-button">Cancelar</button>
+    <h1>Agregar Nuevo Contenido</h1>
+    
+    <div class="method-selector">
+      <button class="method-btn active" id="form-method-btn">Formulario</button>
+      <button class="method-btn" id="json-method-btn">JSON</button>
+    </div>
+
+    <!-- Formulario para agregar tarjeta individual -->
+    <div id="form-method" class="form-section">
+      <h2>Nueva Tarjeta</h2>
+      <div class="form-group">
+        <label class="form-label" for="card-environment">Ambiente</label>
+        <input type="text" id="card-environment" class="form-input" placeholder="Nombre del ambiente (ej: production, staging)" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="card-number">Número de tarjeta</label>
+        <input type="text" id="card-number" class="form-input card-number-input" placeholder="1234 5678 9012 3456" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="card-response">Respuesta esperada</label>
+        <input type="text" id="card-response" class="form-input" placeholder="Transacción aprobada" required>
+      </div>
+    </div>
+
+    <!-- Método JSON (original) -->
+    <div id="json-method" class="form-section hidden">
+      <h2>Importar por JSON</h2>
+      <textarea id="json-input" class="form-input" placeholder="Pega aquí el JSON para importar nuevas tarjetas">{
+  "environment": "example",
+  "cards": [
+    {
+      "cardNumber": "5451951574925480",
+      "cardNumberDisplay": "5451951574925480",
+      "cardResponse": "Example Transacción aprobada"
+    }
+  ]
+}</textarea>
+    </div>
+
+    <div class="button-group">
+      <button id="import-button" class="btn-primary">Agregar</button>
+      <button id="cancel-import-button" class="btn-secondary">Cancelar</button>
+    </div>
   </div>
   <div id="edit-container" class="container hidden">
     <h1>Editar Ambientes</h1>
-    <!-- Los ambientes se cargarán dinámicamente aquí para editar -->
-    <button id="save-edit-button">Guardar cambios</button>
-    <button id="cancel-edit-button">Cancelar</button>
+    <div id="environments-list">
+      <!-- Los ambientes se cargarán dinámicamente aquí para editar -->
+    </div>
+    <div class="button-group">
+      <button id="save-edit-button" class="btn-primary">Guardar cambios</button>
+      <button id="cancel-edit-button" class="btn-secondary">Cancelar</button>
+    </div>
   </div>
   <div id="notification" class="notification"></div>
+  
+  <!-- Buy me a coffee button -->
+  <div id="support-button" class="support-button" title="¡Apoya el desarrollo!">
+    <span class="coffee-icon">☕</span>
+  </div>
+  
   <script src="popup.js"></script>
 </body>
 </html>

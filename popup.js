@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", showImportScreen);
   document
     .getElementById("import-button")
-    .addEventListener("click", importCards);
+    .addEventListener("click", handleImport);
   document
     .getElementById("cancel-import-button")
     .addEventListener("click", hideImportScreen);
@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("cancel-edit-button")
     .addEventListener("click", hideEditScreen);
+  
+  // Nuevos event listeners para el método selector
+  document
+    .getElementById("form-method-btn")
+    .addEventListener("click", () => switchMethod("form"));
+  document
+    .getElementById("json-method-btn")
+    .addEventListener("click", () => switchMethod("json"));
+  
+  // Formato automático del número de tarjeta
+  document
+    .getElementById("card-number")
+    .addEventListener("input", formatCardNumber);
+  
+  // Buy me a coffee button
+  document
+    .getElementById("support-button")
+    .addEventListener("click", openSupportLink);
 });
 
 function loadEnvironments() {
@@ -50,31 +68,7 @@ function loadEnvironments() {
             cardNumber: "4349003000047015",
             cardLogo: defaultLogo,
             cardNumberDisplay: "4349 0030 0004 7015",
-            cardResponse: "Tarjeta no válida",
-          },
-          {
-            cardNumber: "4349008516656431",
-            cardLogo: defaultLogo,
-            cardNumberDisplay: "4349 0085 1665 6431",
-            cardResponse: "Tarjeta no compatible",
-          },
-          {
-            cardNumber: "4349001210846432",
-            cardLogo: defaultLogo,
-            cardNumberDisplay: "4349 0012 1084 6432",
             cardResponse: "Tarjeta sin fondos",
-          },
-          {
-            cardNumber: "4349003243371321",
-            cardLogo: defaultLogo,
-            cardNumberDisplay: "4349 0032 4337 1321",
-            cardResponse: "Imposible verificar CVV",
-          },
-          {
-            cardNumber: "4349001386781322",
-            cardLogo: defaultLogo,
-            cardNumberDisplay: "4349 0013 8678 1322",
-            cardResponse: "Tarjeta bloqueada por el banco",
           },
         ],
       },
@@ -84,7 +78,8 @@ function loadEnvironments() {
 
   renderEnvironmentNav();
   if (environments.length > 0) {
-    currentEnvironment = environments[0];
+    // Buscar el ambiente "default" y seleccionarlo, o el primero si no existe
+    currentEnvironment = environments.find(env => env.environment === "default") || environments[0];
     renderCards(currentEnvironment);
   }
 }
@@ -100,7 +95,17 @@ function renderEnvironmentNav() {
     const button = document.createElement("button");
     button.textContent = env.environment;
     button.style.backgroundColor = env.color;
+    
+    // Marcar como activo si es el ambiente actual
+    if (currentEnvironment && currentEnvironment.environment === env.environment) {
+      button.classList.add("active");
+    }
+    
     button.addEventListener("click", () => {
+      // Remover clase active de todos los botones
+      nav.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+      
       currentEnvironment = env;
       renderCards(env);
     });
@@ -170,15 +175,120 @@ function showNotification(message) {
   }, 3000);
 }
 
-function showImportScreen() {
+function hideAllScreens() {
   document.getElementById("main-container").classList.add("hidden");
+  document.getElementById("import-container").classList.add("hidden");
+  document.getElementById("edit-container").classList.add("hidden");
+}
+
+function showImportScreen() {
+  // Ocultar todas las pantallas primero
+  hideAllScreens();
+  // Mostrar la pantalla de importar
   document.getElementById("import-container").classList.remove("hidden");
+  // Resetear el método selector a formulario por defecto
+  switchMethod("form");
 }
 
 function hideImportScreen() {
+  hideAllScreens();
   document.getElementById("main-container").classList.remove("hidden");
-  document.getElementById("import-container").classList.add("hidden");
+  clearImportForm();
+}
+
+function clearImportForm() {
   document.getElementById("json-input").value = "";
+  document.getElementById("card-environment").value = "";
+  document.getElementById("card-number").value = "";
+  document.getElementById("card-response").value = "";
+}
+
+function switchMethod(method) {
+  const formMethodBtn = document.getElementById("form-method-btn");
+  const jsonMethodBtn = document.getElementById("json-method-btn");
+  const formMethod = document.getElementById("form-method");
+  const jsonMethod = document.getElementById("json-method");
+  
+  if (method === "form") {
+    formMethodBtn.classList.add("active");
+    jsonMethodBtn.classList.remove("active");
+    formMethod.classList.remove("hidden");
+    jsonMethod.classList.add("hidden");
+  } else {
+    jsonMethodBtn.classList.add("active");
+    formMethodBtn.classList.remove("active");
+    jsonMethod.classList.remove("hidden");
+    formMethod.classList.add("hidden");
+  }
+}
+
+function formatCardNumber(event) {
+  let value = event.target.value.replace(/\D/g, '');
+  value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+  event.target.value = value;
+}
+
+function handleImport() {
+  const formMethodBtn = document.getElementById("form-method-btn");
+  
+  if (formMethodBtn.classList.contains("active")) {
+    addSingleCard();
+  } else {
+    importCards();
+  }
+}
+
+function addSingleCard() {
+  const environment = document.getElementById("card-environment").value.trim();
+  const cardNumber = document.getElementById("card-number").value.replace(/\s/g, '');
+  const cardResponse = document.getElementById("card-response").value.trim();
+  
+  if (!environment || !cardNumber || !cardResponse) {
+    showNotification("Por favor completa todos los campos");
+    return;
+  }
+  
+  if (!/^\d{13,19}$/.test(cardNumber)) {
+    showNotification("Número de tarjeta inválido (13-19 dígitos)");
+    return;
+  }
+  
+  const cardNumberDisplay = cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+  
+  const newCard = {
+    cardNumber: cardNumber,
+    cardLogo: defaultLogo,
+    cardNumberDisplay: cardNumberDisplay,
+    cardResponse: cardResponse
+  };
+  
+  // Buscar si el ambiente ya existe
+  let targetEnvironment = environments.find(env => env.environment === environment);
+  
+  if (targetEnvironment) {
+    // Verificar si la tarjeta ya existe
+    if (targetEnvironment.cards.some(card => card.cardNumber === cardNumber)) {
+      showNotification("Esta tarjeta ya existe en el ambiente");
+      return;
+    }
+    targetEnvironment.cards.push(newCard);
+    showNotification(`Tarjeta agregada al ambiente "${environment}"`);
+  } else {
+    // Crear nuevo ambiente
+    targetEnvironment = {
+      environment: environment,
+      color: getRandomDarkColor(),
+      cards: [newCard]
+    };
+    environments.push(targetEnvironment);
+    showNotification(`Nuevo ambiente "${environment}" creado con la tarjeta`);
+  }
+  
+  saveEnvironments();
+  renderEnvironmentNav();
+  currentEnvironment = targetEnvironment;
+  renderCards(targetEnvironment);
+  hideImportScreen();
 }
 
 function importCards() {
@@ -229,32 +339,33 @@ function getRandomDarkColor() {
 }
 
 function showEditScreen() {
-  const editContainer = document.getElementById("edit-container");
-  editContainer.innerHTML = "";
+  // Ocultar todas las pantallas primero
+  hideAllScreens();
+  
+  const environmentsList = document.getElementById("environments-list");
+  environmentsList.innerHTML = "";
 
   environments.forEach((env, index) => {
     const envDiv = document.createElement("div");
+    envDiv.className = "environment-item";
     envDiv.innerHTML = `
-      <input type="text" class="env-name" value="${env.environment}" data-index="${index}">
-      <button class="edit-json" data-index="${index}">Editar JSON</button>
-      <button class="delete-env" data-index="${index}">Eliminar</button>
-      <textarea class="json-edit hidden" data-index="${index}">${JSON.stringify(
+      <div class="environment-header">
+        <div class="env-name-row">
+          <input type="text" class="env-name" value="${env.environment}" data-index="${index}" placeholder="Nombre del ambiente">
+        </div>
+        <div class="env-buttons-row">
+          <button class="edit-json" data-index="${index}">JSON</button>
+          <button class="delete-env" data-index="${index}">Eliminar</button>
+        </div>
+      </div>
+      <textarea class="json-edit hidden" data-index="${index}" placeholder="JSON de las tarjetas...">${JSON.stringify(
       env.cards,
       null,
       2
     )}</textarea>
     `;
-    editContainer.appendChild(envDiv);
+    environmentsList.appendChild(envDiv);
   });
-
-  // Agregar botones de guardar y cancelar
-  const buttonsDiv = document.createElement("div");
-  buttonsDiv.className = "edit-buttons";
-  buttonsDiv.innerHTML = `
-    <button id="save-edit-button">Guardar cambios</button>
-    <button id="cancel-edit-button">Cancelar</button>
-  `;
-  editContainer.appendChild(buttonsDiv);
 
   document.querySelectorAll(".delete-env").forEach((button) => {
     button.addEventListener("click", deleteEnvironment);
@@ -266,26 +377,21 @@ function showEditScreen() {
       const textarea = document.querySelector(
         `.json-edit[data-index="${index}"]`
       );
+      const isHidden = textarea.classList.contains("hidden");
       textarea.classList.toggle("hidden");
+      
+      // Cambiar texto del botón
+      this.textContent = isHidden ? "Ocultar" : "JSON";
     });
   });
 
-  document.getElementById("main-container").classList.add("hidden");
-  document.getElementById("import-container").classList.add("hidden");
-  editContainer.classList.remove("hidden");
-
-  // Añadir event listeners para los botones de guardar y cancelar
-  document
-    .getElementById("save-edit-button")
-    .addEventListener("click", saveEditedEnvironment);
-  document
-    .getElementById("cancel-edit-button")
-    .addEventListener("click", hideEditScreen);
+  // Mostrar la pantalla de edición
+  document.getElementById("edit-container").classList.remove("hidden");
 }
 
 function hideEditScreen() {
+  hideAllScreens();
   document.getElementById("main-container").classList.remove("hidden");
-  document.getElementById("edit-container").classList.add("hidden");
   renderEnvironmentNav(); // Esto actualizará la barra de navegación con los datos no modificados
   if (currentEnvironment) {
     renderCards(currentEnvironment); // Esto mostrará las tarjetas del ambiente actual sin modificaciones
@@ -293,34 +399,54 @@ function hideEditScreen() {
 }
 
 function saveEditedEnvironment() {
-  const inputs = document.querySelectorAll("#edit-container .env-name");
-  const newNames = Array.from(inputs).map((input) => input.value);
+  const inputs = document.querySelectorAll("#environments-list .env-name");
+  const newNames = Array.from(inputs).map((input) => input.value.trim());
 
+  // Validar nombres vacíos
+  if (newNames.some(name => !name)) {
+    showNotification("Error: Los nombres de ambiente no pueden estar vacíos");
+    return;
+  }
+
+  // Validar nombres duplicados
   if (new Set(newNames).size !== newNames.length) {
     showNotification("Error: Nombres de ambiente duplicados");
     return;
   }
 
+  // Actualizar nombres de ambientes
   inputs.forEach((input, index) => {
-    environments[index].environment = input.value;
+    if (environments[index]) {
+      environments[index].environment = input.value.trim();
+    }
   });
 
-  const textareas = document.querySelectorAll("#edit-container .json-edit");
+  // Actualizar JSON de tarjetas
+  const textareas = document.querySelectorAll("#environments-list .json-edit");
+  let hasError = false;
+  
   textareas.forEach((textarea, index) => {
+    if (hasError) return; // Si ya hay error, no continuar
+    
     try {
       const newCards = JSON.parse(textarea.value);
       if (Array.isArray(newCards) && newCards.every(isValidCard)) {
-        environments[index].cards = newCards;
+        if (environments[index]) {
+          environments[index].cards = newCards;
+        }
       } else {
         throw new Error(
-          `JSON inválido para el ambiente ${environments[index].environment}`
+          `JSON inválido para el ambiente "${environments[index]?.environment || 'desconocido'}"`
         );
       }
     } catch (error) {
       showNotification(`Error: ${error.message}`);
+      hasError = true;
       return;
     }
   });
+
+  if (hasError) return;
 
   saveEnvironments();
   renderEnvironmentNav();
@@ -329,8 +455,17 @@ function saveEditedEnvironment() {
 }
 
 function deleteEnvironment(event) {
-  const index = event.target.getAttribute("data-index");
+  const index = parseInt(event.target.getAttribute("data-index"));
+  const deletedEnv = environments[index];
+  
   environments.splice(index, 1);
+  
+  // Si se eliminó el ambiente actual, cambiar al "default" o al primero disponible
+  if (currentEnvironment && currentEnvironment.environment === deletedEnv.environment) {
+    currentEnvironment = environments.length > 0 ? 
+      (environments.find(env => env.environment === "default") || environments[0]) : null;
+  }
+  
   saveEnvironments();
   showEditScreen(); // Refresh the edit screen
   showNotification("Ambiente eliminado correctamente");
@@ -349,4 +484,10 @@ function updateEnvironmentJSON(index, jsonString) {
   } catch (error) {
     showNotification("Error al actualizar JSON: " + error.message);
   }
+}
+
+function openSupportLink() {
+  chrome.tabs.create({
+    url: "https://buy.stripe.com/cNi00igBN2Ki881b756EU00"
+  });
 }
