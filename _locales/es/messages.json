@@ -1,0 +1,18 @@
+{
+  "extName": {
+    "message": "Tarjetas de Crédito de Prueba",
+    "description": "Extension name shown in the Chrome Web Store and toolbar."
+  },
+  "extShortName": {
+    "message": "Tarjetas",
+    "description": "Short extension name."
+  },
+  "extDescription": {
+    "message": "Copia tarjetas de prueba de sandbox en un clic, por ambiente, con paquetes de Stripe, Mercado Pago, Conekta y más.",
+    "description": "Extension description, max 132 characters."
+  },
+  "extActionTitle": {
+    "message": "Tarjetas de prueba (Alt+Shift+K)",
+    "description": "Toolbar button tooltip."
+  }
+}

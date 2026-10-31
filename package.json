@@ -1,0 +1,19 @@
+{
+  "name": "test-card-hub",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.1",
+  "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "package": "node scripts/package.mjs",
+    "test:e2e": "playwright test",
+    "store:assets": "node scripts/store-assets.mjs",
+    "icons": "node scripts/render-icons.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "vitest": "^5.0.5"
+  }
+}

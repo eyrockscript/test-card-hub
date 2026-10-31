@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Store icon: 96x96 artwork with 16px transparent padding (Chrome Web Store guideline). -->
+  <g transform="translate(64 64) scale(0.857) translate(-64 -64)">
+    <rect x="8" y="8" width="112" height="112" rx="26" fill="#1b1f27"/>
+    <rect x="42" y="28" width="60" height="40" rx="7" fill="#5b6577"/>
+    <rect x="24" y="44" width="72" height="48" rx="8" fill="#f5f7fa"/>
+    <rect x="33" y="54" width="15" height="11" rx="2.5" fill="#c3c9d4"/>
+    <rect x="33" y="75" width="34" height="6" rx="3" fill="#8f99aa"/>
+    <circle cx="92" cy="90" r="18" fill="#2fa565" stroke="#1b1f27" stroke-width="6"/>
+    <path d="M84 90.5l5.5 5.5 11-12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

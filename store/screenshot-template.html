@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Store screenshot template</title>
+  <!-- Rendered by scripts/store-assets.mjs. Query: layout=shot|promo, theme=light|dark, headline, sub, image, icon -->
+  <style>
+    @font-face {
+      font-family: "Outfit";
+      src: url("../assets/fonts/outfit-var.woff2") format("woff2");
+      font-weight: 100 900;
+    }
+
+    :root {
+      --canvas: oklch(0.93 0.006 255);
+      --ink: oklch(0.22 0.012 255);
+      --ink-2: oklch(0.4 0.012 255);
+      --edge: oklch(0.22 0.02 255 / 0.08);
+      --shadow: 0 2px 4px oklch(0.22 0.02 255 / 0.08), 0 24px 56px -16px oklch(0.22 0.02 255 / 0.35);
+    }
+
+    :root[data-theme="dark"] {
+      --canvas: oklch(0.2 0.006 255);
+      --ink: oklch(0.95 0.004 250);
+      --ink-2: oklch(0.8 0.008 250);
+      --edge: oklch(1 0 0 / 0.1);
+      --shadow: 0 2px 4px oklch(0 0 0 / 0.3), 0 24px 56px -16px oklch(0 0 0 / 0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: "Outfit", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* 1280x800 store screenshot: copy on the left, popup on the right. */
+    body[data-layout="shot"] {
+      width: 1280px;
+      height: 800px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 475px;
+      align-items: center;
+      column-gap: 72px;
+      padding: 0 112px 0 120px;
+    }
+
+    .copy { max-width: 560px; }
+
+    .headline {
+      margin: 0;
+      font-weight: 600;
+      font-size: 44px;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .sub {
+      margin: 20px 0 0;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--ink-2);
+      text-wrap: pretty;
+    }
+
+    /* Popup capture is 760x1120 (DSF 2) shown at 475x700, i.e. 1.25x of the real 380x560. */
+    .popup {
+      display: block;
+      width: 475px;
+      height: 700px;
+      border-radius: 12px;
+      box-shadow: var(--shadow), 0 0 0 1px var(--edge);
+    }
+
+    /* 440x280 small promo tile: copy on the left, a real popup crop bleeding off the right edge. */
+    body[data-layout="promo"] {
+      position: relative;
+      width: 440px;
+      height: 280px;
+      padding: 0 0 0 30px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    body[data-layout="promo"] .copy { max-width: 190px; }
+    body[data-layout="promo"] .icon { width: 56px; height: 56px; }
+    body[data-layout="promo"] .headline { font-size: 27px; line-height: 1.08; }
+    body[data-layout="promo"] .sub { margin-top: 8px; font-size: 14px; line-height: 1.35; }
+    body[data-layout="shot"] .icon { display: none; }
+    body[data-layout="shot"] .popup-wrap { display: block; }
+    body[data-layout="promo"] .popup-wrap { position: absolute; top: 34px; left: 236px; display: block; }
+    body[data-layout="promo"] .popup { width: 260px; height: auto; border-radius: 10px; }
+  </style>
+</head>
+<body data-layout="shot">
+  <img class="icon" alt="" id="icon">
+  <div class="copy">
+    <h1 class="headline" id="headline"></h1>
+    <p class="sub" id="sub"></p>
+  </div>
+  <div class="popup-wrap"><img class="popup" alt="" id="popup"></div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    document.body.dataset.layout = params.get('layout') ?? 'shot';
+    document.documentElement.dataset.theme = params.get('theme') ?? 'light';
+    document.documentElement.lang = params.get('lang') ?? 'en';
+    document.getElementById('headline').textContent = params.get('headline') ?? '';
+    document.getElementById('sub').textContent = params.get('sub') ?? '';
+    if (params.get('image')) document.getElementById('popup').src = params.get('image');
+    if (params.get('icon')) document.getElementById('icon').src = params.get('icon');
+    else document.getElementById('icon').remove();
+    if (!params.get('image')) document.querySelector('.popup-wrap').remove();
+  </script>
+</body>
+</html>

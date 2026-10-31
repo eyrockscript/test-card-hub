@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <!-- Pixel-tuned 16px variant: tile, one card, approval dot. -->
+  <rect width="16" height="16" rx="3.5" fill="#1b1f27"/>
+  <rect x="2" y="5" width="10" height="7" rx="1.5" fill="#f5f7fa"/>
+  <rect x="3.5" y="9" width="4" height="1.5" rx="0.75" fill="#8f99aa"/>
+  <circle cx="12" cy="12" r="3.5" fill="#2fa565" stroke="#1b1f27" stroke-width="1"/>
+</svg>

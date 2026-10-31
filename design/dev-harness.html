@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- DEV ONLY. Never shipped (scripts/package.mjs does not include design/).
+       Fakes the chrome.* APIs so popup UI can be checked in a normal browser tab.
+       Query params: ?lang=en|es (browser UI language), ?seed=empty|engaged -->
+  <meta charset="UTF-8">
+  <base href="../">
+  <meta name="color-scheme" content="light dark">
+  <title>Test Card Hub dev harness</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const memory = {};
+      const day = 24 * 60 * 60 * 1000;
+      if (params.get('seed') === 'empty') {
+        memory.schemaVersion = 3;
+        memory.environments = [];
+      }
+      if (params.get('seed') === 'engaged') {
+        memory.engagement = { firstSeenAt: Date.now() - 9 * day, copyCount: 25, promptState: 'none', dismissedAt: 0, dismissCount: 0 };
+      }
+      window.__opened = [];
+      window.__memory = memory;
+      window.chrome = {
+        storage: { local: {
+          get: async (keys) => Object.fromEntries(keys.filter((k) => k in memory).map((k) => [k, structuredClone(memory[k])])),
+          set: async (obj) => { Object.assign(memory, structuredClone(obj)); },
+        } },
+        i18n: { getUILanguage: () => params.get('lang') ?? 'es-MX' },
+        runtime: { getManifest: () => ({ version: '3.0.0' }) },
+        tabs: { create: async (options) => { window.__opened.push(options.url); } },
+      };
+    })();
+  </script>
+  <script type="module" src="src/popup.js"></script>
+</head>
+<body>
+  <main id="app"></main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

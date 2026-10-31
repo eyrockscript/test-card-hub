@@ -1,18 +1,35 @@
 {
   "manifest_version": 3,
-  "name": "Tarjetas de Crédito de Prueba",
-  "version": "2.2",
-  "description": "Extensión para copiar números de tarjeta de crédito de prueba al portapapeles.",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
+  "description": "__MSG_extDescription__",
+  "version": "3.0.0",
+  "default_locale": "en",
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
   "action": {
     "default_popup": "popup.html",
+    "default_title": "__MSG_extActionTitle__",
     "default_icon": {
-      "16": "icon-128.png",
-      "48": "icon-128.png",
+      "16": "icon-16.png",
+      "48": "icon-48.png",
       "128": "icon-128.png"
     }
   },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+K"
+      }
+    }
+  },
   "permissions": [
-    "clipboardWrite",
-    "tabs"
-  ]
+    "storage"
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+  }
 }

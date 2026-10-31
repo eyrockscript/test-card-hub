@@ -1,146 +1,186 @@
-# 🃏 Tarjetas de Crédito de Prueba
+# Tarjetas de Crédito de Prueba (test-card-hub)
 
-Una extensión de Chrome moderna y elegante para gestionar números de tarjetas de crédito de prueba. Diseñada para desarrolladores y testers que necesitan simular transacciones con diferentes respuestas de pago de forma rápida y eficiente.
+Extensión de Chrome para guardar y copiar números de tarjeta de prueba de sandboxes de pago, agrupados por ambiente. Pensada para desarrolladores y QA que prueban checkouts.
 
-## 🚀 Instalación Rápida
+Solo para entornos de prueba. No guardes tarjetas reales. La extensión no genera números de tarjeta.
 
-### Desde Chrome Web Store (Recomendado)
-[![Instalar desde Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Instalar-blue?style=for-the-badge&logo=google-chrome)](https://chromewebstore.google.com/detail/tarjetas-de-cr%C3%A9dito-de-pr/nkpgepoonipokhghifbocnohiaoigaeg)
+[Instalar desde Chrome Web Store](https://chromewebstore.google.com/detail/tarjetas-de-cr%C3%A9dito-de-pr/nkpgepoonipokhghifbocnohiaoigaeg)
 
-**[📥 Instalar directamente desde Chrome Web Store](https://chromewebstore.google.com/detail/tarjetas-de-cr%C3%A9dito-de-pr/nkpgepoonipokhghifbocnohiaoigaeg)**
+Si te resulta útil, [califícala en la Chrome Web Store](https://chromewebstore.google.com/detail/nkpgepoonipokhghifbocnohiaoigaeg/reviews).
 
-### ☕ Apoya el Proyecto
-Si esta extensión te es útil, considera apoyar su desarrollo:
+## Español
 
-[![Buy me a coffee](https://img.shields.io/badge/☕-Buy%20me%20a%20coffee-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buy.stripe.com/cNi00igBN2Ki881b756EU00)
+### Características
 
-**[☕ Buy me a coffee](https://buy.stripe.com/cNi00igBN2Ki881b756EU00)**
+- Ambientes de tarjetas de prueba (desarrollo, staging, un cliente).
+- Copiar con un clic o con las teclas 1 a 9. Buscar con `/`.
+- Chips para copiar vencimiento, CVV y código postal.
+- Agregar tarjetas con formulario: detecta la marca, valida el dígito Luhn y avisa cuando el número no es un número de prueba conocido.
+- Importar un archivo JSON.
+- Paquetes de pasarelas listos, con números tomados de la documentación oficial de cada una: Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal y Adyen. Las fuentes están en `docs/gateway-sources.md`.
+- Renombrar ambientes, eliminar tarjetas o ambientes con deshacer, editar el JSON, exportar e importar un archivo de respaldo.
+- Tema claro y oscuro según el sistema. Interfaz en español e inglés, con selector de idioma en la ventana.
+- Atajo de teclado `Alt+Shift+K` para abrirla.
+- Los datos de la versión 2 se migran automáticamente.
 
-### Instalación Manual (Desarrolladores)
-1. Clona este repositorio o descarga el archivo ZIP
-2. Ve a `chrome://extensions/` en tu navegador Chrome
-3. Activa el "Modo de desarrollador"
-4. Haz clic en "Cargar extensión sin empaquetar"
-5. Selecciona la carpeta con los archivos de la extensión
+### Instalación manual (desarrollo)
 
-## ✨ Características Principales
+1. Clona este repositorio.
+2. Abre `chrome://extensions` y activa el modo de desarrollador.
+3. Haz clic en "Cargar descomprimida" y elige la carpeta del repositorio.
 
-### 🎨 **Diseño Minimalista Moderno**
-- Interfaz elegante con tipografía Inter y colores suaves
-- Tarjetas realistas con efectos visuales y animaciones fluidas
-- Experiencia de usuario intuitiva y profesional
+### Formato JSON de importación
 
-### 📱 **Gestión Dual de Tarjetas**
-- **Formulario Simple**: Agrega tarjetas individuales fácilmente
-- **Importación JSON**: Importa múltiples tarjetas y ambientes
-- Validación automática de números de tarjeta
-- Formateo automático mientras escribes
-
-### 🌍 **Ambientes Múltiples**
-- Crea ambientes para diferentes entornos (desarrollo, staging, producción)
-- Navegación rápida con indicadores visuales
-- Colores únicos para cada ambiente
-- Selección automática del ambiente "default"
-
-### 🛠️ **Gestión Avanzada**
-- Edita nombres de ambientes y conjuntos de tarjetas
-- Elimina ambientes con confirmación segura
-- Exporta/importa configuraciones completas
-- Almacenamiento local persistente
-
-### 🎯 **Experiencia Optimizada**
-- Un clic para copiar números al portapapeles
-- Notificaciones elegantes con confirmación
-- Navegación fluida entre pantallas
-- Sin desbordamientos ni elementos rotos
-
-### ☕ **Apoyo al Desarrollo**
-- Botón discreto para apoyar el proyecto
-- Enlace directo a página de donaciones
-
-## 💻 Uso
-
-### Tarjetas Incluidas por Defecto
-La extensión viene con 3 tarjetas de ejemplo para empezar:
-
-| Número | Respuesta Esperada |
-|--------|-------------------|
-| `5451 9515 7492 5480` | Transacción aprobada |
-| `4574 4412 1519 0335` | Tarjeta no válida |
-| `4349 0030 0004 7015` | Tarjeta sin fondos |
-
-### 🔄 Flujo de Trabajo Típico
-
-1. **Abre la extensión** haciendo clic en el ícono de la barra de herramientas
-2. **Selecciona un ambiente** de los botones superiores
-3. **Copia una tarjeta** haciendo clic en ella
-4. **Agrega nuevas tarjetas** con el botón `+`:
-   - Usando el formulario simple para tarjetas individuales
-   - O importando JSON para múltiples tarjetas
-5. **Edita ambientes** con el botón de lápiz ✎
-
-### 📝 Agregar Tarjetas Individuales
-
-```
-Ambiente: production
-Número: 4111111111111111
-Respuesta: Transacción aprobada
-```
-
-### 📋 Formato JSON para Importación
+Formato de un solo ambiente (el campo `outcome` es opcional):
 
 ```json
 {
   "environment": "staging",
   "cards": [
     {
-      "cardNumber": "4111111111111111",
-      "cardNumberDisplay": "4111 1111 1111 1111",
-      "cardResponse": "Transacción aprobada"
+      "cardNumber": "4242424242424242",
+      "cardResponse": "Aprobada",
+      "outcome": "approved"
+    },
+    {
+      "cardNumber": "4000000000000002",
+      "cardResponse": "Rechazada",
+      "outcome": "declined"
     }
   ]
 }
 ```
 
-## 🛡️ Privacidad y Seguridad
+Valores válidos de `outcome`: `approved`, `declined`, `insufficient`, `review`, `other`.
 
-- **Sin conexión a internet**: Todos los datos se almacenan localmente
-- **Sin tracking**: No recopilamos información personal
-- **Solo permisos necesarios**: Clipboard y tabs para funcionalidad básica
-- **Código abierto**: Transparencia total del funcionamiento
+Formato de respaldo (el que produce "Exportar"):
 
-## 🎯 Casos de Uso
+```json
+{
+  "format": "test-card-hub",
+  "version": 3,
+  "environments": [
+    {
+      "environment": "staging",
+      "cards": [
+        { "cardNumber": "4242424242424242", "cardResponse": "Aprobada", "outcome": "approved" }
+      ]
+    }
+  ]
+}
+```
 
-- **Desarrollo de e-commerce**: Prueba diferentes respuestas de pago
-- **Testing de APIs**: Simula tarjetas válidas e inválidas
-- **Demos y presentaciones**: Números consistentes para mostrar
-- **QA y testing**: Escenarios predecibles de transacciones
+La estructura exacta de cada ambiente dentro de `environments` la define el código en `src/`; exporta un respaldo desde la extensión para ver un ejemplo real.
 
-## 🔄 Versiones
+### Desarrollo
 
-### v2.2 (Actual)
-- ✨ Diseño completamente renovado y minimalista
-- 🆕 Formulario simple para agregar tarjetas individuales
-- 🎨 Tarjetas de crédito realistas con efectos visuales
-- 🔧 Navegación mejorada entre pantallas
-- 📱 Sin desbordamientos, diseño perfecto
-- ☕ Botón de apoyo al desarrollo
-- 🏷️ Solo 3 tarjetas de muestra por defecto
+Requiere Node.js y [pnpm](https://pnpm.io).
 
-## 🤝 Contribuir
+```bash
+pnpm install
+pnpm test       # pruebas unitarias (vitest)
+pnpm package    # genera dist/test-card-hub-<versión>.zip para la tienda
+```
 
-¡Las contribuciones son bienvenidas! Si encuentras algún problema o tienes sugerencias:
+La extensión no tiene paso de compilación: son módulos ES nativos.
 
-1. 🐛 **Reporta bugs** en los issues de GitHub
-2. 💡 **Sugiere nuevas funcionalidades**
-3. 🔧 **Envía pull requests**
-4. ⭐ **Dale una estrella** al repositorio
-5. ☕ **Apoya el desarrollo** [aquí](https://buy.stripe.com/cNi00igBN2Ki881b756EU00)
+### Privacidad
 
-## 📄 Licencia
+- Todo se guarda en tu navegador con `chrome.storage.local`.
+- Sin peticiones de red, sin analítica, sin cuentas. Las tipografías van incluidas.
+- Único permiso: `storage`. CSP estricta.
+- Detalle completo en [privacy-policy.md](privacy-policy.md).
 
-Este proyecto está bajo licencia MIT. Ver el archivo `LICENSE` para más detalles.
+### Licencia
+
+MIT. Ver [LICENSE](LICENSE). Las tipografías incluidas (Outfit y JetBrains Mono) usan la licencia SIL OFL 1.1, ver [assets/fonts/LICENSE.md](assets/fonts/LICENSE.md).
 
 ---
 
-Hecho con ❤️ para la comunidad de desarrolladores
+## English
+
+Chrome extension that stores and copies payment sandbox test card numbers, grouped by environment. Built for developers and QA testers working on checkouts.
+
+For test environments only. Do not store real cards. The extension does not generate card numbers.
+
+[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/tarjetas-de-cr%C3%A9dito-de-pr/nkpgepoonipokhghifbocnohiaoigaeg) | [Rate it](https://chromewebstore.google.com/detail/nkpgepoonipokhghifbocnohiaoigaeg/reviews)
+
+### Features
+
+- Environments of test cards (development, staging, a client project).
+- Copy with a click or with keys 1 to 9. Search with `/`.
+- Chips to copy expiry date, CVV and postal code.
+- Add cards with a form: it detects the brand, checks the Luhn digit and warns when a number is not a known test number.
+- JSON import.
+- Ready-made gateway packs with numbers taken from each gateway's official docs: Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal and Adyen. Sources are listed in `docs/gateway-sources.md`.
+- Rename environments, delete cards or environments with undo, edit the JSON, export and import a backup file.
+- Light and dark theme following the system. Spanish and English UI, with a language switch in the popup.
+- `Alt+Shift+K` keyboard shortcut to open it.
+- Version 2 data migrates automatically.
+
+### Manual install (development)
+
+1. Clone this repository.
+2. Open `chrome://extensions` and turn on Developer mode.
+3. Click "Load unpacked" and pick the repository folder.
+
+### JSON import format
+
+Single-environment format (the `outcome` field is optional):
+
+```json
+{
+  "environment": "staging",
+  "cards": [
+    {
+      "cardNumber": "4242424242424242",
+      "cardResponse": "Approved",
+      "outcome": "approved"
+    }
+  ]
+}
+```
+
+Valid `outcome` values: `approved`, `declined`, `insufficient`, `review`, `other`.
+
+Backup format (what "Export" produces):
+
+```json
+{
+  "format": "test-card-hub",
+  "version": 3,
+  "environments": [
+    {
+      "environment": "staging",
+      "cards": [
+        { "cardNumber": "4242424242424242", "cardResponse": "Approved", "outcome": "approved" }
+      ]
+    }
+  ]
+}
+```
+
+The exact shape of each environment inside `environments` is defined by the code in `src/`; export a backup from the extension to see a real example.
+
+### Development
+
+Requires Node.js and [pnpm](https://pnpm.io).
+
+```bash
+pnpm install
+pnpm test       # unit tests (vitest)
+pnpm package    # builds dist/test-card-hub-<version>.zip for the store
+```
+
+There is no build step: the extension uses native ES modules.
+
+### Privacy
+
+- Everything is stored in your browser with `chrome.storage.local`.
+- No network requests, no analytics, no accounts. Fonts are bundled.
+- Only permission: `storage`. Strict CSP.
+- Full details in [privacy-policy.md](privacy-policy.md).
+
+### License
+
+MIT. See [LICENSE](LICENSE). The bundled fonts (Outfit and JetBrains Mono) use the SIL OFL 1.1 license, see [assets/fonts/LICENSE.md](assets/fonts/LICENSE.md).

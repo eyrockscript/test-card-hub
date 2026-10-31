@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Card Hub v3 — preview</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Preview-only overrides: lay out several popup frames side by side. */
+    body.preview { width: auto; height: auto; overflow: auto; padding: 40px; background: oklch(0.9 0.006 255); font-family: var(--font-ui); }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, 380px); gap: 40px 32px; justify-content: center; }
+    .frame-wrap { display: grid; gap: 10px; }
+    .frame-caption { color: oklch(0.35 0.01 255); font: 500 12px var(--font-ui); }
+    .frame { position: relative; width: 380px; height: 560px; overflow: hidden; border-radius: 12px; background: var(--bg); color: var(--ink); box-shadow: 0 1px 2px oklch(0 0 0 / .08), 0 20px 50px -20px oklch(0 0 0 / .35); font: 400 13px/1.45 var(--font-ui); }
+    .frame .toast { position: absolute; }
+  </style>
+</head>
+<body class="preview">
+<div class="preview-grid">
+
+  <!-- 1. Main, light -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Principal · claro · fila 2 recién copiada</div>
+    <div class="frame" data-theme="light">
+      <section class="screen">
+        <div>
+          <header class="topbar">
+            <div class="env-tabs" role="tablist" aria-label="Ambientes">
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-slate)"></span>default</button>
+              <button class="env-tab" role="tab" aria-selected="true"><span class="env-dot" style="--dot: var(--env-indigo)"></span>Stripe</button>
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-teal)"></span>Mercado Pago</button>
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-amber)"></span>staging-mx</button>
+            </div>
+            <button class="icon-btn" aria-label="Agregar tarjetas"><svg class="icon"><use href="../assets/icons.svg#i-plus"/></svg></button>
+            <button class="icon-btn" aria-label="Administrar ambientes"><svg class="icon"><use href="../assets/icons.svg#i-gear-six"/></svg></button>
+          </header>
+          <div class="toolbar">
+            <label class="search">
+              <svg class="icon"><use href="../assets/icons.svg#i-magnifying-glass"/></svg>
+              <span class="visually-hidden">Buscar</span>
+              <input type="search" placeholder="Buscar número o respuesta">
+              <span class="kbd">/</span>
+            </label>
+            <div class="quick-values">
+              <span class="quick-values-label">Copiar</span>
+              <button class="quick-chip">Vence <span class="mono">12/34</span></button>
+              <button class="quick-chip">CVV <span class="mono">123</span></button>
+              <button class="quick-chip">CP <span class="mono">06600</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <ul class="card-list">
+            <li><button class="card-row"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4242 4242 4242 4242</span><span class="card-meta"><span class="outcome" data-outcome="approved"><svg class="icon-sm"><use href="../assets/icons.svg#i-check"/></svg><span class="outcome-text">Aprobada</span></span></span><span class="copied-label"><svg class="icon"><use href="../assets/icons.svg#i-check"/></svg>Copiado</span></span><span class="card-trail"><span class="kbd">1</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+            <li><button class="card-row" data-state="copied"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4000 0000 0000 0002</span><span class="card-meta"><span class="outcome" data-outcome="declined"><svg class="icon-sm"><use href="../assets/icons.svg#i-x"/></svg><span class="outcome-text">Rechazada</span></span></span><span class="copied-label"><svg class="icon"><use href="../assets/icons.svg#i-check"/></svg>Copiado · 4000 0000 0000 0002</span></span><span class="card-trail"><span class="kbd">2</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4000 0000 0000 9995</span><span class="card-meta"><span class="outcome" data-outcome="insufficient"><svg class="icon-sm"><use href="../assets/icons.svg#i-minus"/></svg><span class="outcome-text">Fondos insuficientes</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">3</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4000 0025 0000 3155</span><span class="card-meta"><span class="outcome" data-outcome="review"><svg class="icon-sm"><use href="../assets/icons.svg#i-shield-check"/></svg><span class="outcome-text">Requiere autenticación 3DS</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">4</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">MC</span><span class="card-main"><span class="card-number">5555 5555 5555 4444</span><span class="card-meta"><span class="outcome" data-outcome="approved"><svg class="icon-sm"><use href="../assets/icons.svg#i-check"/></svg><span class="outcome-text">Aprobada</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">5</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">Amex</span><span class="card-main"><span class="card-number">3782 822463 10005</span><span class="card-meta"><span class="outcome" data-outcome="approved"><svg class="icon-sm"><use href="../assets/icons.svg#i-check"/></svg><span class="outcome-text">Aprobada</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">6</span><svg class="icon copy-icon"><use href="../assets/icons.svg#i-copy"/></svg><svg class="icon check-icon"><use href="../assets/icons.svg#i-check"/></svg></span></button></li>
+          </ul>
+          <p class="list-note">Clic o tecla 1–9 para copiar. Funciona cualquier fecha futura y CVV.</p>
+        </div>
+        <footer class="footer">
+          <span class="footer-meta"><span class="mono">v3.0.0</span><span>6 tarjetas</span></span>
+          <span class="footer-end"><span class="lang-switch" role="group" aria-label="Idioma"><button aria-pressed="false">Auto</button><button aria-pressed="true">ES</button><button aria-pressed="false">EN</button></span></span>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <!-- 2. Main, dark, hover on row 1 -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Principal · oscuro (sigue el tema del sistema)</div>
+    <div class="frame" data-theme="dark">
+      <section class="screen">
+        <div>
+          <header class="topbar">
+            <div class="env-tabs" role="tablist">
+              <button class="env-tab" role="tab" aria-selected="true"><span class="env-dot" style="--dot: var(--env-slate)"></span>default</button>
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-indigo)"></span>Stripe</button>
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-teal)"></span>Mercado Pago</button>
+              <button class="env-tab" role="tab" aria-selected="false"><span class="env-dot" style="--dot: var(--env-amber)"></span>staging-mx</button>
+            </div>
+            <button class="icon-btn" aria-label="Agregar tarjetas"><svg class="icon"><use href="../assets/icons.svg#i-plus"/></svg></button>
+            <button class="icon-btn" aria-label="Administrar ambientes"><svg class="icon"><use href="../assets/icons.svg#i-gear-six"/></svg></button>
+          </header>
+          <div class="toolbar">
+            <label class="search">
+              <svg class="icon"><use href="../assets/icons.svg#i-magnifying-glass"/></svg>
+              <input type="search" placeholder="Buscar número o respuesta">
+              <span class="kbd">/</span>
+            </label>
+            <div class="quick-values">
+              <span class="quick-values-label">Copiar</span>
+              <button class="quick-chip" data-state="copied">Vence <span class="mono">12/34</span></button>
+              <button class="quick-chip">CVV <span class="mono">123</span></button>
+              <button class="quick-chip">CP <span class="mono">06600</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <ul class="card-list">
+            <li><button class="card-row" style="background: var(--surface-2)"><span class="brand-badge">MC</span><span class="card-main"><span class="card-number">5451 9515 7492 5480</span><span class="card-meta"><span class="outcome" data-outcome="approved"><svg class="icon-sm"><use href="../assets/icons.svg#i-check"/></svg><span class="outcome-text">Transacción aprobada</span></span></span><span class="copied-label"></span></span><span class="card-trail"><svg class="icon"><use href="../assets/icons.svg#i-copy"/></svg></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4574 4412 1519 0335</span><span class="card-meta"><span class="outcome" data-outcome="declined"><svg class="icon-sm"><use href="../assets/icons.svg#i-x"/></svg><span class="outcome-text">Tarjeta no válida</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">2</span></span></button></li>
+            <li><button class="card-row"><span class="brand-badge">Visa</span><span class="card-main"><span class="card-number">4349 0030 0004 7015</span><span class="card-meta"><span class="outcome" data-outcome="insufficient"><svg class="icon-sm"><use href="../assets/icons.svg#i-minus"/></svg><span class="outcome-text">Tarjeta sin fondos</span></span></span><span class="copied-label"></span></span><span class="card-trail"><span class="kbd">3</span></span></button></li>
+          </ul>
+          <p class="list-note">Clic o tecla 1–9 para copiar. Funciona cualquier fecha futura y CVV.</p>
+        </div>
+        <footer class="footer">
+          <span class="footer-meta"><span class="mono">v3.0.0</span><span>3 tarjetas</span></span>
+          <span class="footer-end"><span class="lang-switch" role="group" aria-label="Idioma"><button aria-pressed="false">Auto</button><button aria-pressed="true">ES</button><button aria-pressed="false">EN</button></span></span>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <!-- 3. Add card form -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Agregar · formulario con validación en vivo</div>
+    <div class="frame" data-theme="light">
+      <section class="screen">
+        <header class="screen-head">
+          <button class="icon-btn" aria-label="Volver"><svg class="icon"><use href="../assets/icons.svg#i-arrow-left"/></svg></button>
+          <h1 class="screen-title">Agregar tarjetas</h1>
+        </header>
+        <div class="screen-body">
+          <div class="screen-section">
+            <div class="segmented" role="tablist">
+              <button role="tab" aria-selected="true">Tarjeta</button>
+              <button role="tab" aria-selected="false">JSON</button>
+              <button role="tab" aria-selected="false">Pasarelas</button>
+            </div>
+            <div class="field">
+              <label class="field-label" for="p-env">Ambiente</label>
+              <input id="p-env" class="input" value="staging-mx">
+              <p class="field-help">Si no existe, se crea.</p>
+            </div>
+            <div class="field">
+              <label class="field-label" for="p-num">Número</label>
+              <div class="input-with-badge">
+                <input id="p-num" class="input mono" value="4915 6688 1234 5674">
+                <span class="brand-badge">Visa</span>
+              </div>
+              <p class="field-warning"><svg class="icon-sm"><use href="../assets/icons.svg#i-warning"/></svg>No es una tarjeta de prueba conocida. Nunca guardes tarjetas reales.</p>
+            </div>
+            <div class="field">
+              <label class="field-label" for="p-res">Respuesta esperada</label>
+              <input id="p-res" class="input" value="Fondos insuficientes">
+            </div>
+            <fieldset class="field" style="border:0;padding:0;margin:0">
+              <legend class="field-label" style="margin-bottom:6px">Resultado</legend>
+              <div class="outcome-picker">
+                <input type="radio" name="p-o" id="p-o1"><label for="p-o1" class="outcome" data-outcome="approved">Aprobada</label>
+                <input type="radio" name="p-o" id="p-o2"><label for="p-o2" class="outcome" data-outcome="declined">Rechazada</label>
+                <input type="radio" name="p-o" id="p-o3" checked><label for="p-o3" class="outcome" data-outcome="insufficient">Sin fondos</label>
+                <input type="radio" name="p-o" id="p-o4"><label for="p-o4" class="outcome" data-outcome="review">3DS / revisión</label>
+                <input type="radio" name="p-o" id="p-o5"><label for="p-o5" class="outcome" data-outcome="other">Otro</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary">Cancelar</button>
+          <button class="btn btn-primary">Agregar tarjeta</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 4. Gateway presets -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Agregar · paquetes de pasarelas</div>
+    <div class="frame" data-theme="dark">
+      <section class="screen">
+        <header class="screen-head">
+          <button class="icon-btn" aria-label="Volver"><svg class="icon"><use href="../assets/icons.svg#i-arrow-left"/></svg></button>
+          <h1 class="screen-title">Agregar tarjetas</h1>
+        </header>
+        <div class="screen-body">
+          <div class="screen-section">
+            <div class="segmented" role="tablist">
+              <button role="tab" aria-selected="false">Tarjeta</button>
+              <button role="tab" aria-selected="false">JSON</button>
+              <button role="tab" aria-selected="true">Pasarelas</button>
+            </div>
+            <ul class="preset-list">
+              <li class="preset-row"><div><div class="preset-name">Stripe</div><div class="preset-meta">8 tarjetas · aprobada, rechazos, 3DS</div></div><span class="env-count">Agregado</span></li>
+              <li class="preset-row"><div><div class="preset-name">Mercado Pago México</div><div class="preset-meta">6 tarjetas · resultado según nombre del titular</div></div><button class="btn btn-secondary btn-sm">Agregar</button></li>
+              <li class="preset-row"><div><div class="preset-name">Conekta</div><div class="preset-meta">5 tarjetas · sandbox</div></div><button class="btn btn-secondary btn-sm">Agregar</button></li>
+              <li class="preset-row"><div><div class="preset-name">OpenPay</div><div class="preset-meta">6 tarjetas · sandbox</div></div><button class="btn btn-secondary btn-sm">Agregar</button></li>
+              <li class="preset-row"><div><div class="preset-name">Kushki</div><div class="preset-meta">4 tarjetas · sandbox</div></div><button class="btn btn-secondary btn-sm">Agregar</button></li>
+            </ul>
+            <p class="field-help">Números tomados de la documentación oficial de cada pasarela. Verificados el 29/10/2026.</p>
+          </div>
+        </div>
+        <div></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 5. Manage -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Administrar · borrar con deshacer, respaldo</div>
+    <div class="frame" data-theme="light">
+      <section class="screen">
+        <header class="screen-head">
+          <button class="icon-btn" aria-label="Volver"><svg class="icon"><use href="../assets/icons.svg#i-arrow-left"/></svg></button>
+          <h1 class="screen-title">Ambientes</h1>
+        </header>
+        <div class="screen-body">
+          <section class="env-section">
+            <div class="env-section-head"><span class="env-dot" style="--dot: var(--env-slate)"></span><input class="env-name-input" value="default" aria-label="Nombre del ambiente"><span style="display:flex;gap:2px"><button class="icon-btn" aria-label="Editar JSON"><svg class="icon"><use href="../assets/icons.svg#i-pencil-simple"/></svg></button><button class="icon-btn" aria-label="Eliminar ambiente"><svg class="icon"><use href="../assets/icons.svg#i-trash"/></svg></button></span></div>
+            <ul class="env-cards">
+              <li class="env-card-row"><div><div class="card-number">5451 9515 7492 5480</div><span class="outcome" data-outcome="approved"><span class="outcome-text">Transacción aprobada</span></span></div><div class="env-card-actions"><button class="icon-btn" aria-label="Eliminar tarjeta"><svg class="icon-sm"><use href="../assets/icons.svg#i-trash"/></svg></button></div></li>
+              <li class="env-card-row"><div><div class="card-number">4574 4412 1519 0335</div><span class="outcome" data-outcome="declined"><span class="outcome-text">Tarjeta no válida</span></span></div><div class="env-card-actions"><button class="icon-btn" aria-label="Eliminar tarjeta"><svg class="icon-sm"><use href="../assets/icons.svg#i-trash"/></svg></button></div></li>
+            </ul>
+          </section>
+          <section class="env-section">
+            <div class="env-section-head"><span class="env-dot" style="--dot: var(--env-indigo)"></span><input class="env-name-input" value="Stripe" aria-label="Nombre del ambiente"><span class="env-count">8 tarjetas</span></div>
+          </section>
+          <section class="env-section">
+            <div class="env-section-head"><span class="env-dot" style="--dot: var(--env-amber)"></span><input class="env-name-input" value="staging-mx" aria-label="Nombre del ambiente"><span class="env-count">4 tarjetas</span></div>
+          </section>
+        </div>
+        <div class="manage-footer">
+          <button class="btn btn-secondary"><svg class="icon-sm"><use href="../assets/icons.svg#i-download-simple"/></svg>Exportar respaldo</button>
+          <button class="btn btn-secondary"><svg class="icon-sm"><use href="../assets/icons.svg#i-upload-simple"/></svg>Importar respaldo</button>
+        </div>
+        <div class="toast" data-open="true" role="status"><span class="toast-text">Ambiente «Mercado Pago» eliminado</span><button class="btn"><svg class="icon-sm"><use href="../assets/icons.svg#i-arrow-counter-clockwise"/></svg>Deshacer</button></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 6. Empty state -->
+  <div class="frame-wrap">
+    <div class="frame-caption">Estado vacío · enseña qué hacer</div>
+    <div class="frame" data-theme="dark">
+      <section class="screen">
+        <header class="topbar">
+          <div class="env-tabs"></div>
+          <button class="icon-btn" aria-label="Agregar tarjetas"><svg class="icon"><use href="../assets/icons.svg#i-plus"/></svg></button>
+          <button class="icon-btn" aria-label="Administrar ambientes"><svg class="icon"><use href="../assets/icons.svg#i-gear-six"/></svg></button>
+        </header>
+        <div class="screen-body">
+          <div class="empty-state">
+            <div class="empty-heading"><svg class="icon"><use href="../assets/icons.svg#i-credit-card"/></svg><h2 class="empty-title">Aún no tienes ambientes</h2></div>
+            <p class="empty-text">Agrega una tarjeta de prueba o importa el paquete de tu pasarela para empezar.</p>
+            <div class="empty-actions">
+              <button class="btn btn-primary" style="flex:none">Ver pasarelas</button>
+              <button class="btn btn-secondary">Agregar tarjeta</button>
+            </div>
+          </div>
+        </div>
+        <footer class="footer">
+          <span class="footer-meta"><span class="mono">v3.0.0</span></span>
+          <span class="footer-end"><span class="lang-switch" role="group" aria-label="Idioma"><button aria-pressed="false">Auto</button><button aria-pressed="true">ES</button><button aria-pressed="false">EN</button></span></span>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

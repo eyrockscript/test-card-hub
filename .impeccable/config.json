@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "design/preview.html"
+        ],
+        "createdAt": "2026-10-29T18:37:36.453Z",
+        "reason": "Claude: .frame is the preview-only wrapper simulating the popup viewport; screens are full-bleed by design"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "design/preview.html"
+        ],
+        "createdAt": "2026-10-29T18:37:36.571Z",
+        "reason": "Claude: outer card is the preview-only popup frame, not product UI"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "design/preview.html"
+        ],
+        "createdAt": "2026-10-29T18:37:36.690Z",
+        "reason": "Claude: product-register scale (operate.md recommends 1.125-1.2); 1.23 step is intentional"
+      }
+    ]
+  }
+}
