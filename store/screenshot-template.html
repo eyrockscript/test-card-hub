@@ -99,6 +99,24 @@
     body[data-layout="shot"] .popup-wrap { display: block; }
     body[data-layout="promo"] .popup-wrap { position: absolute; top: 34px; left: 236px; display: block; }
     body[data-layout="promo"] .popup { width: 260px; height: auto; border-radius: 10px; }
+    /* 1400x560 marquee: same composition as the small tile, scaled up. */
+    body[data-layout="marquee"] {
+      position: relative;
+      width: 1400px;
+      height: 560px;
+      padding: 0 0 0 110px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+    body[data-layout="marquee"] .copy { max-width: 560px; }
+    body[data-layout="marquee"] .icon { width: 96px; height: 96px; }
+    body[data-layout="marquee"] .headline { font-size: 60px; line-height: 1.05; }
+    body[data-layout="marquee"] .sub { margin-top: 16px; font-size: 26px; line-height: 1.35; }
+    body[data-layout="marquee"] .popup-wrap { position: absolute; top: 70px; left: 820px; display: block; }
+    body[data-layout="marquee"] .popup { width: 500px; height: auto; border-radius: 14px; }
   </style>
 </head>
 <body data-layout="shot">

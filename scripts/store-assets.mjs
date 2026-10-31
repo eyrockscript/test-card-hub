@@ -138,6 +138,13 @@ async function compose(browser, lang, popupDir) {
   await page.locator('#popup').evaluate((img) => img.decode());
   const promoName = lang === 'en' ? 'promo-small-440x280.png' : 'promo-small-440x280.es.png';
   await page.screenshot({ path: path.join(OUT, promoName) });
+  await page.setViewportSize({ width: 1400, height: 560 });
+  await page.goto(templateUrl({ layout: 'marquee', theme: 'light', lang, headline: c.name, sub: c.promoSub, icon: ICON, image: pathToFileURL(path.join(popupDir, `${files[0]}.png`)).href }));
+  await page.evaluate(() => document.fonts.ready);
+  await page.locator('#icon').evaluate((img) => img.decode());
+  await page.locator('#popup').evaluate((img) => img.decode());
+  const marqueeName = lang === 'en' ? 'promo-marquee-1400x560.png' : 'promo-marquee-1400x560.es.png';
+  await page.screenshot({ path: path.join(OUT, marqueeName) });
   await page.close();
 }
 
