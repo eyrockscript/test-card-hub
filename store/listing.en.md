@@ -23,7 +23,7 @@ What you can do:
 • Search with "/".
 • Copy the expiry date, CVV and postal code with one-click chips.
 • Add a card with a form: it detects the brand, checks the Luhn digit and warns you when a number is not a known test number.
-• Import cards from a JSON file, or add a ready-made pack with numbers taken from the official docs of Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal and Adyen.
+• Import cards from a JSON file, or add a ready-made pack of sandbox cards for popular payment gateways, with numbers taken from each gateway's official docs.
 • Rename environments, delete cards or environments (with undo), edit the JSON, and export or import a backup file.
 • Light and dark theme that follows your system, and a Spanish/English switch.
 • Open the popup with Alt+Shift+K.
@@ -75,7 +75,7 @@ Privacy policy URL: https://github.com/eyrockscript/test-card-hub/blob/main/priv
 • New design with light and dark theme that follows your system.
 • Copy a card with keys 1 to 9, search with "/", and copy expiry, CVV and postal code with chips.
 • Add cards with a form that detects the brand, checks the Luhn digit and warns about numbers that are not known test numbers.
-• Ready-made gateway packs: Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal and Adyen.
+• Ready-made packs of sandbox cards for popular payment gateways.
 • Rename and delete environments and cards, with undo. Edit the JSON. Export and import a backup file.
 • Spanish and English interface, with a language switch in the popup.
 • Open with Alt+Shift+K.

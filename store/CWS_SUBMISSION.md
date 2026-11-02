@@ -37,7 +37,7 @@ What you can do:
 • Search with "/".
 • Copy the expiry date, CVV and postal code with one-click chips.
 • Add a card with a form: it detects the brand, checks the Luhn digit and warns you when a number is not a known test number.
-• Import cards from a JSON file, or add a ready-made pack with numbers taken from the official docs of Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal and Adyen.
+• Import cards from a JSON file, or add a ready-made pack of sandbox cards for popular payment gateways, with numbers taken from each gateway's official docs.
 • Rename environments, delete cards or environments (with undo), edit the JSON, and export or import a backup file.
 • Light and dark theme that follows your system, and a Spanish/English switch.
 • Open the popup with Alt+Shift+K.
@@ -111,7 +111,7 @@ Qué puedes hacer:
 • Buscar con "/".
 • Copiar vencimiento, CVV y código postal con un clic.
 • Agregar una tarjeta con formulario: detecta la marca, valida el dígito Luhn y avisa si el número no es un número de prueba conocido.
-• Importar tarjetas desde un archivo JSON, o añadir un paquete listo con números tomados de la documentación oficial de Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal y Adyen.
+• Importar tarjetas desde un archivo JSON, o añadir un paquete listo de tarjetas de sandbox de pasarelas de pago populares, con números tomados de la documentación oficial de cada una.
 • Renombrar ambientes, eliminar tarjetas o ambientes (con deshacer), editar el JSON y exportar o importar un archivo de respaldo.
 • Tema claro y oscuro que sigue a tu sistema, y selector entre español e inglés.
 • Abrirla con Alt+Shift+K.

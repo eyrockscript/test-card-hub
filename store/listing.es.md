@@ -21,7 +21,7 @@ Qué puedes hacer:
 • Buscar con "/".
 • Copiar vencimiento, CVV y código postal con un clic.
 • Agregar una tarjeta con formulario: detecta la marca, valida el dígito Luhn y avisa si el número no es un número de prueba conocido.
-• Importar tarjetas desde un archivo JSON, o añadir un paquete listo con números tomados de la documentación oficial de Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal y Adyen.
+• Importar tarjetas desde un archivo JSON, o añadir un paquete listo de tarjetas de sandbox de pasarelas de pago populares, con números tomados de la documentación oficial de cada una.
 • Renombrar ambientes, eliminar tarjetas o ambientes (con deshacer), editar el JSON y exportar o importar un archivo de respaldo.
 • Tema claro y oscuro que sigue a tu sistema, y selector entre español e inglés.
 • Abrirla con Alt+Shift+K.
@@ -73,7 +73,7 @@ URL de la política de privacidad: https://github.com/eyrockscript/test-card-hub
 • Diseño nuevo con tema claro y oscuro que sigue a tu sistema.
 • Copia una tarjeta con las teclas 1 a 9, busca con "/" y copia vencimiento, CVV y código postal con un clic.
 • Agrega tarjetas con un formulario que detecta la marca, valida el dígito Luhn y avisa si el número no es de prueba conocido.
-• Paquetes de pasarelas listos: Stripe, Mercado Pago MX, Conekta, Openpay MX, NetPay MX, Clip, Kushki MX, PayU Latam MX, dLocal y Adyen.
+• Paquetes listos de tarjetas de sandbox de pasarelas de pago populares.
 • Renombra y elimina ambientes y tarjetas, con deshacer. Edita el JSON. Exporta e importa un archivo de respaldo.
 • Interfaz en español e inglés, con selector de idioma en la ventana.
 • Ábrela con Alt+Shift+K.
