@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.eyrockscript/test-card-hub",
+  "title": "Test Card Hub",
+  "description": "Official sandbox test cards (Stripe, Mercado Pago, Conekta and more) for agents testing checkouts.",
+  "repository": {
+    "url": "https://github.com/eyrockscript/test-card-hub",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "websiteUrl": "https://github.com/eyrockscript/test-card-hub/tree/main/mcp",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "test-card-hub-mcp",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "TEST_CARD_HUB_BACKUP",
+          "description": "Optional path to the backup JSON exported from the Test Card Hub Chrome extension, to expose your own environments.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "filepath"
+        }
+      ]
+    }
+  ]
+}

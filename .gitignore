@@ -5,3 +5,4 @@ coverage/
 dist/
 test-results/
 playwright-report/
+mcp/core/
