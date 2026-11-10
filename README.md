@@ -22,6 +22,7 @@ Si te resulta útil, [califícala en la Chrome Web Store](https://chromewebstore
 - Tema claro y oscuro según el sistema. Interfaz en español e inglés, con selector de idioma en la ventana.
 - Atajo de teclado `Alt+Shift+K` para abrirla.
 - Los datos de la versión 2 se migran automáticamente.
+- Servidor MCP para agentes de IA (Claude Code, Cursor): las mismas tarjetas para pruebas automatizadas de checkout. Ver [`mcp/`](mcp/README.md).
 
 ### Instalación manual (desarrollo)
 
@@ -117,6 +118,7 @@ For test environments only. Do not store real cards. The extension does not gene
 - Light and dark theme following the system. Spanish and English UI, with a language switch in the popup.
 - `Alt+Shift+K` keyboard shortcut to open it.
 - Version 2 data migrates automatically.
+- MCP server for AI agents (Claude Code, Cursor): the same cards for automated checkout tests. See [`mcp/`](mcp/README.md).
 
 ### Manual install (development)
 

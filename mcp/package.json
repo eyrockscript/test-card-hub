@@ -1,0 +1,58 @@
+{
+  "name": "test-card-hub-mcp",
+  "version": "1.0.0",
+  "description": "MCP server with official sandbox test cards for Stripe, Mercado Pago, Conekta, Openpay, Kushki, Clip, PayU, dLocal and Adyen, so AI agents can test checkouts.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Cenzontle <hola@cenzontle.cloud> (https://cenzontle.cloud)",
+  "mcpName": "io.github.eyrockscript/test-card-hub",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eyrockscript/test-card-hub.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://github.com/eyrockscript/test-card-hub/tree/main/mcp#readme",
+  "bugs": "https://github.com/eyrockscript/test-card-hub/issues",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "test-cards",
+    "payments",
+    "checkout",
+    "qa",
+    "stripe",
+    "mercado-pago",
+    "conekta"
+  ],
+  "bin": {
+    "test-card-hub-mcp": "bin/test-card-hub-mcp.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "core",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.33.1",
+  "scripts": {
+    "sync-core": "node scripts/sync-core.mjs",
+    "pretest": "node scripts/sync-core.mjs",
+    "test": "vitest run",
+    "test:coverage": "node scripts/sync-core.mjs && vitest run --coverage",
+    "prestart": "node scripts/sync-core.mjs",
+    "start": "node bin/test-card-hub-mcp.js",
+    "prepack": "node scripts/sync-core.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.5",
+    "vitest": "^5.0.5"
+  }
+}
