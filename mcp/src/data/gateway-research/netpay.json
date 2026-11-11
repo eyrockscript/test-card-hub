@@ -1,0 +1,93 @@
+{
+  "gateway": "netpay",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://docs.netpay.com.mx/reference/matriz-de-pruebas-2",
+    "https://docs.netpay.com.mx/reference/tarjetas-de-prueba-2",
+    "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": { "rule": "any_valid_date", "example": null, "note": "Docs: any expiry date as long as it is a valid date (does not explicitly say 'future')." },
+      "cvv": { "rule": "any_number", "note": "Docs: 'para el cvv2 puedes ingresar cualquier numero'." },
+      "cardholderName": null,
+      "email": {
+        "rule": "drives_outcome",
+        "note": "The customer email plus the card select the scenario.",
+        "scenarios": [
+          { "value": "accept@netpay.com.mx", "meaning": "accepted transaction" },
+          { "value": "reject@netpay.com.mx", "meaning": "directly rejected transaction" },
+          { "value": "review@netpay.com.mx", "meaning": "3DS flow (accepted or rejected depending on the card)" }
+        ]
+      },
+      "amount": null,
+      "notes": [
+        "Do not pay cash references generated in Sandbox (they can cause reconciliation issues).",
+        "Approval response code is responseCode '00' with procRetMsg 'Aprobada'; docs recommend treating any responseCode other than '00' as not completed."
+      ]
+    },
+    "byCard": [
+      { "cardNumber": "4000000000000002", "outcome": "approved", "fields": { "customerEmail": "accept@netpay.com.mx" } },
+      { "cardNumber": "5200000000000007", "outcome": "approved", "fields": { "customerEmail": "accept@netpay.com.mx" } },
+      { "cardNumber": "340000000003961", "outcome": "approved", "fields": { "customerEmail": "accept@netpay.com.mx" } },
+      { "cardNumber": "4000000000001000", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, Visa frictionless." } },
+      { "cardNumber": "4000000000001091", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, Visa." } },
+      { "cardNumber": "5200000000001005", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, MasterCard frictionless." } },
+      { "cardNumber": "5200000000001096", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, MasterCard." } },
+      { "cardNumber": "340000000001007", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, Amex frictionless." } },
+      { "cardNumber": "340000000001098", "outcome": "review", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Accepted in 3DS, Amex." } },
+      { "cardNumber": "4000000000001018", "outcome": "declined", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Rejected in 3DS, Visa frictionless." } },
+      { "cardNumber": "4000000000001109", "outcome": "declined", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Rejected in 3DS, Visa." } },
+      { "cardNumber": "5200000000001013", "outcome": "declined", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Rejected in 3DS, MasterCard frictionless." } },
+      { "cardNumber": "340000000001015", "outcome": "declined", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Rejected in 3DS, Amex frictionless." } },
+      { "cardNumber": "340000000001106", "outcome": "declined", "fields": { "customerEmail": "review@netpay.com.mx", "note": "Rejected in 3DS, Amex." } },
+      { "cardNumber": "4000000000000002", "outcome": "declined", "fields": { "customerEmail": "reject@netpay.com.mx" } },
+      { "cardNumber": "5200000000000007", "outcome": "declined", "fields": { "customerEmail": "reject@netpay.com.mx" } },
+      { "cardNumber": "340000000003961", "outcome": "declined", "fields": { "customerEmail": "reject@netpay.com.mx" } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "01", "officialMeaning": "The issuer wants to contact the processor (refer to issuer).", "category": "do_not_honor", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "03", "officialMeaning": "Problems with the merchant affiliation.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "04", "officialMeaning": "Card blocked.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "05", "officialMeaning": "General error.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "06", "officialMeaning": "Communication problem.", "category": "processing_error", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "07", "officialMeaning": "Card blocked.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "12", "officialMeaning": "Problems with the operation type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "13", "officialMeaning": "Problems with the operation type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "14", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "15", "officialMeaning": "Problems with the issuer.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "30", "officialMeaning": "Problems with the merchant affiliation.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "31", "officialMeaning": "Problems with the operation type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "33", "officialMeaning": "The card expired.", "category": "expired_card", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "34", "officialMeaning": "Fraud rule.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "36", "officialMeaning": "Card blocked.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "41", "officialMeaning": "Card blocked.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "43", "officialMeaning": "Card blocked.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "51", "officialMeaning": "Insufficient funds.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "54", "officialMeaning": "The card expired.", "category": "expired_card", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "55", "officialMeaning": "PIN problems.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "56", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "57", "officialMeaning": "Problems with the operation type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "58", "officialMeaning": "Problems with the operation type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "61", "officialMeaning": "Insufficient funds.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "62", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "63", "officialMeaning": "Insufficient permissions.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "68", "officialMeaning": "Communication problems.", "category": "processing_error", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "75", "officialMeaning": "PIN problems.", "category": "other", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "82", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "83", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "87", "officialMeaning": "Card with problems.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" },
+    { "code": "91", "officialMeaning": "Processor not available.", "category": "processing_error", "retryable": null, "sourceUrl": "https://docs.netpay.com.mx/reference/códigos-de-respuesta-transaccional-2" }
+  ],
+  "gaps": [
+    "Response codes are the 'responseCode' field (with 'procRetMsg') in the webhook payload; the table gives only short Spanish descriptions. The docs note the same problem can map to several codes because banks return different codes. Meanings above are faithful translations; no further semantics (e.g. ISO 8583 meanings) were assumed.",
+    "All 32 non-approval codes were kept (above the ~25 cap) because the official table is short and has no 'most common' ordering.",
+    "The docs do not say which response code each sandbox scenario (reject@ / 3DS-rejected cards) returns.",
+    "No retry guidance in the docs; retryable left null everywhere, including communication/processor-unavailable codes (06, 68, 91).",
+    "Matrix row 'review@netpay.com.mx | 520000000000249 | rejected in 3DS MasterCard' is 15 digits and looks like a docs typo; excluded from byCard.",
+    "The 'Tarjetas de prueba' page lists extra cards without stating which email to use: credit cards not enrolled in 3DS (Visa 4918717162313532, MasterCard 5120481234567895, Amex 340000000003961) and debit cards 'para ser rechazadas en el 3DS' (Visa 4000000000000010, MasterCard 5200000000000015, Amex 340000000006022). Not encoded in byCard because the email is not documented. It also labels 4000000000000002/5200000000000007/340000000003961 as 'Débito enroladas en 3DS'.",
+    "No cardholder-name or amount rules documented. Emails on the matrix page are Cloudflare-obfuscated and were decoded from data-cfemail; the webhook example on the response-codes page shows customerEmail 'accept@netpay.com.mx' in plain text, confirming the format.",
+    "HTTP status codes page (https://docs.netpay.com.mx/reference/códigos-de-estado-http-2) was not read. Category mapping is our own classification."
+  ]
+}

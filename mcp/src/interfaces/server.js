@@ -9,28 +9,26 @@ import { buildKnownNumbers } from '../../core/ui/view-model.js';
 import { RESULT_LIMITS, findCards, listEnvironments, listGateways } from '../application/catalog.js';
 import { validateCard } from '../application/validate-card.js';
 import { registerPrompts } from './prompts.js';
+import { registerQaTools } from './qa-tools.js';
+import { READ_ONLY, failure, json, langSchema, loadEnvironmentNumbers } from './responses.js';
 
-const READ_ONLY = Object.freeze({ readOnlyHint: true, openWorldHint: false });
 const BRANDS = ['visa', 'mastercard', 'amex', 'discover', 'diners', 'jcb', 'unionpay', 'unknown'];
-const langSchema = z.enum(['en', 'es']).optional()
-  .describe('Language for descriptions, notes and hints. Default "en".');
-
-const json = (value) => ({ content: [{ type: 'text', text: JSON.stringify(value, null, 2) }] });
-const failure = (message) => ({ isError: true, content: [{ type: 'text', text: message }] });
 
 const NOT_CONFIGURED = 'No backup file configured. In the extension use "Export", then start the server '
   + 'with --backup <path> or TEST_CARD_HUB_BACKUP=<path>. Gateway presets work without it.';
 
 /**
- * @param {{ version: string, presets: object[], now: () => Date,
+ * @param {{ version: string, presets: object[], now: () => Date, research?: Record<string, object>,
  *   loadEnvironments: () => Promise<import('../infrastructure/backup-file.js').BackupLoad> }} deps
  */
-export function createServer(deps) {
+export function createServer(options) {
+  const deps = { research: {}, ...options };
   const server = new McpServer({ name: 'test-card-hub', version: deps.version });
   const knownNumbers = buildKnownNumbers(deps.presets, createDefaultEnvironments());
   registerGatewayTools(server, deps);
   registerEnvironmentTools(server, deps);
   registerValidateTool(server, deps, knownNumbers);
+  registerQaTools(server, deps, knownNumbers);
   registerPrompts(server, deps.presets);
   return server;
 }
@@ -64,7 +62,7 @@ function registerGatewayTools(server, deps) {
     annotations: READ_ONLY,
   }, async (query) => {
     const backup = await deps.loadEnvironments();
-    const result = findCards(query, { presets: deps.presets, environments: backup.environments, now: deps.now() });
+    const result = findCards(query, { presets: deps.presets, environments: backup.environments, now: deps.now(), research: deps.research });
     if (!result.ok && query.environment && (backup.error || !backup.configured)) {
       return failure(backup.error ?? NOT_CONFIGURED);
     }
@@ -98,8 +96,7 @@ function registerValidateTool(server, deps, knownNumbers) {
     inputSchema: { number: z.string().max(40).describe('Card number, spaces and dashes allowed.') },
     annotations: READ_ONLY,
   }, async ({ number }) => {
-    const backup = await deps.loadEnvironments();
-    const environmentNumbers = new Set(backup.environments.flatMap((env) => env.cards.map((c) => c.cardNumber)));
+    const environmentNumbers = await loadEnvironmentNumbers(deps.loadEnvironments);
     return json(validateCard(number, { knownNumbers, environmentNumbers }));
   });
 }

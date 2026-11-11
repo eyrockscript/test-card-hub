@@ -1,0 +1,76 @@
+{
+  "gateway": "dlocal",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://docs.dlocal.com/docs/make-a-test-payment.md",
+    "https://docs.dlocal.com/reference/payment-status-codes.md",
+    "https://docs.dlocal.com/docs/3d-secure.md"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "outcomeTrigger": {
+        "field": "description",
+        "rule": "status_code_as_string",
+        "documentedSamples": { "200": "PAID - Payment approved", "300": "REJECTED - Generic rejection", "302": "REJECTED - Insufficient funds" },
+        "note": "In sandbox the payment result is controlled by passing a status code in the request body's description field. The payment-status-codes page adds: 'You can test different status codes in Sandbox by sending the desired status code in the description field.'"
+      },
+      "expiry": { "rule": "any_future", "example": "10/2040", "note": "The general example uses expiration_month 10, expiration_year 2040. The 3DS page says to use a future expiration date." },
+      "cvv": { "rule": "valid_sandbox_cvv", "example": "123", "note": "The 3DS page says 'a valid Sandbox CVV'. The examples use 123." },
+      "cardholderName": { "rule": "any", "example": "Thiago Gabriel" },
+      "email": { "rule": "any", "example": "thiago@example.com" },
+      "document": { "rule": "required_in_example", "example": "53033315550", "note": "The example is for country BR. No Mexico example is given on the test page." },
+      "endpoint": { "note": "Raw card data goes to /secure_payments; card_id or token goes to /payments. Sandbox base: https://sandbox.dlocal.com/" },
+      "threeDS": { "field": "three_dsecure.force", "value": true, "note": "3DS is opt-in in sandbox for all MIDs. Set three_dsecure.force = true to request authentication." },
+      "amount": null
+    },
+    "byCard": [
+      { "cardNumber": "4111111111111111", "outcome": "approved", "fields": { "description": "200", "expectedStatus": "PAID", "expectedStatusCode": "200" } },
+      { "cardNumber": "4111111111111111", "outcome": "declined_generic", "fields": { "description": "300", "expectedStatus": "REJECTED", "expectedStatusCode": "300" } },
+      { "cardNumber": "4111111111111111", "outcome": "insufficient_funds", "fields": { "description": "302", "expectedStatus": "REJECTED" } },
+      { "cardNumber": "4556557955726624", "outcome": "3ds_approved", "fields": { "three_dsecure.force": true } },
+      { "cardNumber": "4556104160382032", "outcome": "3ds_rejected", "fields": { "three_dsecure.force": true } },
+      { "cardNumber": "5333259155643223", "outcome": "3ds_approved", "fields": { "three_dsecure.force": true } },
+      { "cardNumber": "5328720384582224", "outcome": "3ds_rejected", "fields": { "three_dsecure.force": true } },
+      { "cardNumber": "4916994064252017", "outcome": "3ds_challenge_eci_05", "fields": { "three_dsecure.force": true, "otp": "7777" } },
+      { "cardNumber": "4916994064252017", "outcome": "3ds_challenge_eci_02", "fields": { "three_dsecure.force": true, "otp": "1221" } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "300", "officialMeaning": "The payment was rejected (generic).", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "301", "officialMeaning": "Rejected by bank.", "category": "do_not_honor", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "302", "officialMeaning": "Insufficient amount.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "303", "officialMeaning": "Card blacklisted.", "category": "card_declined", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "304", "officialMeaning": "Score validation.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "305", "officialMeaning": "Max attempts reached.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "306", "officialMeaning": "Call bank to authorize.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "307", "officialMeaning": "Duplicated payment.", "category": "invalid_request", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "308", "officialMeaning": "Credit card disabled.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "309", "officialMeaning": "Card expired.", "category": "expired_card", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "310", "officialMeaning": "Card reported lost.", "category": "card_declined", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "311", "officialMeaning": "Card requested by the bank.", "category": "card_declined", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "312", "officialMeaning": "Card restricted by the bank.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "313", "officialMeaning": "Card reported stolen.", "category": "card_declined", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "314", "officialMeaning": "Invalid card number.", "category": "incorrect_number", "retryable": false, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "315", "officialMeaning": "Invalid security code.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "316", "officialMeaning": "Unsupported operation.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "317", "officialMeaning": "Rejected due to high risk.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "318", "officialMeaning": "Invalid transaction.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "319", "officialMeaning": "Amount exceeded.", "category": "limit_exceeded", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "320", "officialMeaning": "3D-Secure is required.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "321", "officialMeaning": "Error in acquirer.", "category": "processing_error", "retryable": true, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "325", "officialMeaning": "Transaction frequency limit exceeded.", "category": "limit_exceeded", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "327", "officialMeaning": "Error in external network.", "category": "processing_error", "retryable": true, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "341", "officialMeaning": "3DS challenge not completed by the user.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" },
+    { "code": "343", "officialMeaning": "payer.name does not match the bank's records.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.dlocal.com/reference/payment-status-codes" }
+  ],
+  "gaps": [
+    "The test page documents only 200, 300 and 302 as description samples. The payment-status-codes page says any desired status code can go in description (e.g. '309' for card expired). Whether every 3xx code is really simulated in sandbox was not tested.",
+    "Expected response for description '302': the test page says REJECTED / Insufficient funds but shows no full status_code/status_detail example. Status code 302 is labelled 'Insufficient amount' in the status-codes reference.",
+    "4111111111111111 appears only as the card in the official request examples, not in a dedicated test card list. The outcome comes from description, not from the card.",
+    "No Mexico-specific test data (document type, currency MXN) is on the test page. The examples use country BR and currency USD.",
+    "No amount rules are documented for sandbox card outcomes.",
+    "The 3DS test table gives the outcome only as 'Authentication approved' or 'Authentication rejected'. Which status code a 3DS rejection produces (e.g. 341 vs 300) is not stated.",
+    "The docs give no retry guidance. retryable=false is set only where retrying the same card or payment is unambiguously pointless (expired, lost, stolen, blacklisted, invalid number, duplicate, max attempts). retryable=true is set only for acquirer and network errors. Everything else is null.",
+    "Not included: codes 322-324, 326, 328-332, 340, 342, 344 (wallet, PIN, account and payer-token cases) and 800 (payment creation failed). They exist in the reference."
+  ]
+}

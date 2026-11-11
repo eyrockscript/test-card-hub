@@ -1,0 +1,79 @@
+{
+  "gateway": "openpay",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://documents.openpay.mx/docs/testing.html",
+    "https://documents.openpay.mx/docs/errors.html"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": { "rule": "after_current_month", "example": null },
+      "cvv": { "rule": "any_3_digits", "amexRule": "any_4_digits", "note": "3 digits for VISA and MASTERCARD, 4 digits for AMEX." },
+      "cardholderName": null,
+      "email": null,
+      "amount": null,
+      "notes": [
+        "Any card number not in the documented lists returns an error code in sandbox.",
+        "OneClick/subscriptions: only the listed storable cards can be saved in sandbox.",
+        "Skip Payment cards (5288439128717008 Banamex, 4772913144321702 BBVA): any combination with expiry after the current month and a 3-digit security code."
+      ]
+    },
+    "byCard": [
+      { "cardNumber": "4111111111111111", "outcome": "approved", "fields": {} },
+      { "cardNumber": "5555555555554444", "outcome": "approved", "fields": { "note": "Accepts payment with points." } },
+      { "cardNumber": "5105105105105100", "outcome": "approved", "fields": { "note": "Accepts payment with points." } },
+      { "cardNumber": "345678000000007", "outcome": "approved", "fields": { "cvv": { "rule": "any_4_digits" } } },
+      { "cardNumber": "341111111111111", "outcome": "approved", "fields": { "cvv": { "rule": "any_4_digits" } } },
+      { "cardNumber": "343434343434343", "outcome": "approved", "fields": { "cvv": { "rule": "any_4_digits" } } },
+      { "cardNumber": "5062541600005232", "outcome": "approved", "fields": { "note": "Carnet" } },
+      { "cardNumber": "5064050100000063", "outcome": "approved", "fields": { "note": "Carnet" } },
+      { "cardNumber": "5064510000300020", "outcome": "approved", "fields": { "note": "Carnet" } },
+      { "cardNumber": "4222222222222220", "outcome": "declined", "fields": { "expectedErrorCode": "3001" } },
+      { "cardNumber": "4000000000000069", "outcome": "declined", "fields": { "expectedErrorCode": "3002" } },
+      { "cardNumber": "4444444444444448", "outcome": "insufficient", "fields": { "expectedErrorCode": "3003" } },
+      { "cardNumber": "4000000000000119", "outcome": "declined", "fields": { "expectedErrorCode": "3004" } },
+      { "cardNumber": "4000000000000044", "outcome": "declined", "fields": { "expectedErrorCode": "3005" } },
+      { "cardNumber": "5454545454545454", "outcome": "declined", "fields": { "expectedErrorCode": "3005", "note": "Rejected by antifraud in any mode other than a 3D Secure charge." } },
+      { "cardNumber": "5454545454545454", "outcome": "review", "fields": { "chargeMode": "3D Secure", "note": "Selective authentication: approved in a 3D Secure charge." } },
+      { "cardNumber": "340000000000009", "outcome": "declined", "fields": { "expectedErrorCode": "3001", "cvv": { "rule": "any_4_digits" } } },
+      { "cardNumber": "373737373737374", "outcome": "declined", "fields": { "expectedErrorCode": "3002", "cvv": { "rule": "any_4_digits" } } },
+      { "cardNumber": "370000000000002", "outcome": "insufficient", "fields": { "expectedErrorCode": "3003", "cvv": { "rule": "any_4_digits" } } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "3001", "officialMeaning": "The card was declined by the bank.", "category": "card_declined", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3002", "officialMeaning": "The card has expired.", "category": "expired_card", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3003", "officialMeaning": "The card doesn't have sufficient funds.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3004", "officialMeaning": "The card was reported as stolen.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3005", "officialMeaning": "Fraud risk detected by the anti-fraud system (found in blacklist).", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3006", "officialMeaning": "Request not allowed for this customer or transaction.", "category": "card_declined", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3009", "officialMeaning": "The card was reported as lost.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3010", "officialMeaning": "The bank has restricted the card.", "category": "card_declined", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3011", "officialMeaning": "The bank has requested the card to be retained; contact the bank.", "category": "card_declined", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3012", "officialMeaning": "Bank authorization is required for this charge.", "category": "do_not_honor", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2004", "officialMeaning": "The card number verification digit is invalid.", "category": "incorrect_number", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2005", "officialMeaning": "The expiration date is earlier than the current date.", "category": "expired_card", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2006", "officialMeaning": "The CVV2 security code was not provided.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2007", "officialMeaning": "The card number is a test number, only valid in sandbox.", "category": "invalid_request", "retryable": false, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2008", "officialMeaning": "The card is not valid for payment with points.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2009", "officialMeaning": "The CVV2 security code is invalid.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2010", "officialMeaning": "3D Secure authentication failed.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "2011", "officialMeaning": "Card product type not supported.", "category": "card_declined", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "1012", "officialMeaning": "The transaction amount exceeds the allowed transaction limit.", "category": "limit_exceeded", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "1015", "officialMeaning": "No response obtained from the gateway; try again later.", "category": "processing_error", "retryable": true, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "1017", "officialMeaning": "The payment gateway is not available at the moment; try again later.", "category": "processing_error", "retryable": true, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "1018", "officialMeaning": "The number of charge retries is greater than allowed.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3203", "officialMeaning": "Invalid promotion (installments) for this card type.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3204", "officialMeaning": "Transaction amount is less than the minimum for the promotion.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" },
+    { "code": "3205", "officialMeaning": "Promotion not allowed.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://documents.openpay.mx/docs/errors.html" }
+  ],
+  "gaps": [
+    "Both pages are JS-rendered (Nuxt SPA); read via a real browser (Playwright). Direct HTTP fetch returns an empty shell.",
+    "The testing page describes 3001 as 'La tarjeta fue rechazada' while the errors page says 'The card was declined by the bank'; the errors page wording was used.",
+    "HTTP status per code is on the errors page (3001-3005, 3009-3011, 2010 = 402; 2004, 2011 = 422; 2005, 2006 = 400; 2007-2009, 3006, 3012, 32xx = 412) but not encoded above.",
+    "No cardholder-name, email or amount rules for sandbox outcomes; no concrete expiry example given.",
+    "The 3D Secure flow details for 5454545454545454 (redirect/confirm) are not on the testing page.",
+    "Omitted 3201 (merchant not authorized for installments) and account/webhook/storage codes (2001, 2003, 4001, 4002, 600x) as not card-decline related.",
+    "retryable true only for 1015/1017 where the message says 'try again later'; 1018 false (retry limit exceeded is our reading); everything else null. Category mapping is our own classification."
+  ]
+}
