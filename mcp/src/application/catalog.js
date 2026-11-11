@@ -10,6 +10,7 @@
  */
 import { OUTCOMES, detectBrand, formatCardNumber } from '../../core/domain/index.js';
 import { quickValues } from '../../core/ui/view-model.js';
+import { buildScenarios } from './scenarios.js';
 
 export const RESULT_LIMITS = Object.freeze({ defaultCards: 10, maxCards: 50 });
 
@@ -56,7 +57,18 @@ export function listEnvironments(environments) {
   }));
 }
 
-function presetCardView(preset, card, now, lang) {
+/** Fill values for a preset card, including gateway-specific fields (email, cardholder name). */
+function scenarioFill(scenario) {
+  return {
+    expiry: scenario.expiry,
+    cvv: scenario.cvv,
+    postalCode: scenario.postalCode,
+    ...(scenario.cardholderName ? { cardholderName: scenario.cardholderName } : {}),
+    ...(scenario.email ? { email: scenario.email } : {}),
+  };
+}
+
+function presetCardView(preset, card, scenario, lang) {
   const brand = detectBrand(card.cardNumber);
   const note = lang === 'es' ? card.note : (card.noteEn ?? card.note);
   return {
@@ -69,7 +81,7 @@ function presetCardView(preset, card, now, lang) {
     description: lang === 'es' ? card.cardResponse : card.cardResponseEn,
     ...(note ? { note } : {}),
     gatewayHint: lang === 'es' ? preset.hint : preset.hintEn,
-    fill: fillValues(brand, now, lang),
+    fill: scenarioFill(scenario),
   };
 }
 
@@ -88,12 +100,15 @@ function environmentCardView(env, card, now, lang) {
   };
 }
 
-function collectCards(query, { presets, environments, now }) {
+function collectCards(query, { presets, environments, now, research = {} }) {
   const lang = query.lang ?? 'en';
   const source = query.source ?? 'all';
   const fromGateways = source === 'environments' ? [] : presets
     .filter((p) => !query.gateway || p.id === query.gateway)
-    .flatMap((p) => p.cards.map((c) => presetCardView(p, c, now, lang)));
+    .flatMap((p) => {
+      const scenarios = buildScenarios(p, research[p.id], { now, lang });
+      return p.cards.map((c, i) => presetCardView(p, c, scenarios[i], lang));
+    });
   const fromEnvironments = source === 'gateways' ? [] : environments
     .filter((e) => !query.environment || sameText(e.environment, query.environment))
     .flatMap((e) => e.cards.map((c) => environmentCardView(e, c, now, lang)));
@@ -103,7 +118,7 @@ function collectCards(query, { presets, environments, now }) {
 /**
  * @param {{ gateway?: string, environment?: string, source?: 'all'|'gateways'|'environments',
  *   outcome?: Outcome, brand?: string, lang?: Lang, limit?: number }} query
- * @param {{ presets: Preset[], environments: Environment[], now: Date }} data
+ * @param {{ presets: Preset[], environments: Environment[], now: Date, research?: Record<string, object> }} data
  * @returns {{ ok: true, total: number, shown: number, cards: object[], notice?: string } | { ok: false, error: string }}
  */
 export function findCards(query, data) {

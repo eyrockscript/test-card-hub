@@ -1,6 +1,6 @@
 {
   "name": "test-card-hub-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server with official sandbox test cards for Stripe, Mercado Pago, Conekta, Openpay, Kushki, Clip, PayU, dLocal and Adyen, so AI agents can test checkouts.",
   "type": "module",
   "license": "MIT",

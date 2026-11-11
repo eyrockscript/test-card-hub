@@ -1,0 +1,77 @@
+{
+  "gateway": "conekta",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://developers.conekta.com/docs/pruebas-tarjetas",
+    "https://developers.conekta.com/docs/errores-2"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": { "rule": "any_future", "example": null },
+      "cvc": { "rule": "random_3_digits", "amexRule": "random_3_or_4_digits" },
+      "cardholderName": { "rule": "random" },
+      "email": null,
+      "amount": null,
+      "apiKeys": "sandbox public and private API keys",
+      "notes": [
+        "Error-table cards are credit cards.",
+        "In test mode the CVC is not strictly validated when tokenizing.",
+        "If you tokenize 4111111111111111 or any valid card and create a charge within 10 minutes, the transaction succeeds; after 10 minutes the API returns 'El tiempo de espera desde la captura de datos de la tarjeta expiró. Intenta de nuevo.'",
+        "Sandbox: if customer information is not added, it is sent as null.",
+        "Success test tokens: tok_test_visa_4242, tok_test_visa_1881, tok_test_mastercard_4444, tok_test_mastercard_5100, tok_test_amex_0005, tok_test_amex_8431, tok_test_amex_0006, tok_test_banorte_debit, tok_test_banco_azteca_debit."
+      ]
+    },
+    "byCard": [
+      { "cardNumber": "4242424242424242", "outcome": "approved", "fields": { "token": "tok_test_visa_4242" } },
+      { "cardNumber": "4012888888881881", "outcome": "approved", "fields": { "token": "tok_test_visa_1881" } },
+      { "cardNumber": "5555555555554444", "outcome": "approved", "fields": { "token": "tok_test_mastercard_4444" } },
+      { "cardNumber": "5105105105105100", "outcome": "approved", "fields": { "token": "tok_test_mastercard_5100" } },
+      { "cardNumber": "378282246310005", "outcome": "approved", "fields": { "token": "tok_test_amex_0005", "cvc": { "rule": "random_3_or_4_digits" } } },
+      { "cardNumber": "371449635398431", "outcome": "approved", "fields": { "token": "tok_test_amex_8431", "cvc": { "rule": "random_3_or_4_digits" } } },
+      { "cardNumber": "370781000000007", "outcome": "approved", "fields": { "token": "tok_test_amex_0006", "cvc": { "rule": "random_3_or_4_digits" } } },
+      { "cardNumber": "4915669353237603", "outcome": "approved", "fields": { "token": "tok_test_banorte_debit" } },
+      { "cardNumber": "5576041385402646", "outcome": "approved", "fields": { "token": "tok_test_banco_azteca_debit" } },
+      { "cardNumber": "4000000000000127", "outcome": "insufficient", "fields": { "expectedError": "insufficient_funds" } },
+      { "cardNumber": "4000000000000002", "outcome": "declined", "fields": { "expectedError": "card_declined" } },
+      { "cardNumber": "4000000000000085", "outcome": "other", "fields": { "expectedError": "invalid_cvc" } },
+      { "cardNumber": "4000000000009979", "outcome": "declined", "fields": { "expectedError": "stolen_card" } },
+      { "cardNumber": "4765889404833223", "outcome": "declined", "fields": { "expectedError": "card_over_limit" } },
+      { "cardNumber": "4000000000004954", "outcome": "declined", "fields": { "expectedError": "suspicious_behaviour" } },
+      { "cardNumber": "4000000000009235", "outcome": "declined", "fields": { "expectedError": "blocked_payment_source" } },
+      { "cardNumber": "5201169598806528", "outcome": "declined", "fields": { "expectedError": "attempts_over_limit" } },
+      { "cardNumber": "5579234433467094", "outcome": "declined", "fields": { "expectedError": "amount_over_limit" } },
+      { "cardNumber": "4765881487764268", "outcome": "declined", "fields": { "expectedError": "invalid_expiration_date" } },
+      { "cardNumber": "4134067352736334", "outcome": "declined", "fields": { "expectedError": "call_issuer" } },
+      { "cardNumber": "4111111111111111", "outcome": "other", "fields": { "expectedError": "tok_test_msi_error", "note": "Error row for a monthly-installments (MSI) attempt sent without CVC; using token tok_test_msi_error returns the token-capture timeout message." } },
+      { "cardNumber": "any_valid_test_card", "outcome": "other", "fields": { "expiryMonth": "14", "expectedError": "invalid_expiry_month" } },
+      { "cardNumber": "any_valid_test_card", "outcome": "other", "fields": { "expiryYear": "99", "expectedError": "invalid_expiry_year" } },
+      { "cardNumber": "any_valid_test_card", "outcome": "declined", "fields": { "expiry": { "rule": "any_past", "example": "03/20" }, "expectedError": "expired_card" } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "insufficient_funds", "officialMeaning": "The card does not have enough funds; use another payment method or wait for available balance.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "card_declined", "officialMeaning": "Card declined for unknown reasons (may also occur if the card was issued outside Mexico); buyer should contact the issuer.", "category": "card_declined", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "invalid_expiry_month", "officialMeaning": "The expiry month is incorrect (e.g. 14 or 15); retry with a valid expiry date.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "invalid_expiry_year", "officialMeaning": "The expiry year is incorrect (e.g. 1999 or 2145); retry with a valid expiry date.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "invalid_cvc", "officialMeaning": "The CVC is invalid or incorrect; tokenize the card again with the correct CVC.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "stolen_card", "officialMeaning": "The card was reported lost or stolen; do not disclose to the customer.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "expired_card", "officialMeaning": "The card has expired; retry with a valid card.", "category": "expired_card", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "card_over_limit", "officialMeaning": "The card lacks sufficient credit limit; retry with a valid card with sufficient funds.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "suspicious_behaviour", "officialMeaning": "Payment declined by fraud prevention; avoid giving the customer further details.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "blocked_payment_source", "officialMeaning": "The card is blocked for payments through Conekta; tokenize a new card with correct data.", "category": "card_declined", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "attempts_over_limit", "officialMeaning": "The card exceeded the charge attempt limit; retry with a card that has not exceeded it.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "amount_over_limit", "officialMeaning": "The card exceeded the allowed amount limit; retry with a card that does not exceed it.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "invalid_expiration_date", "officialMeaning": "The card has expired and is no longer valid; try a valid card.", "category": "expired_card", "retryable": false, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "call_issuer", "officialMeaning": "The card cannot make payments; buyer should contact the issuing bank.", "category": "card_declined", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" },
+    { "code": "tok_test_msi_error", "officialMeaning": "CVC was not sent on a monthly-installments (MSI) payment attempt; tokenize again including the CVC.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://developers.conekta.com/docs/pruebas-tarjetas" }
+  ],
+  "gaps": [
+    "Only 15 card error names are documented on the test-cards page; the 'Consulta más códigos de error de Direct API' link (https://developers.conekta.com/v2.3.0/reference/errores) was not read.",
+    "The codes above are the names in the 'Error' column of the test table. The docs do not state which API response field carries them (e.g. details[].code vs a namespaced code like conekta.errors.*); verify against a real sandbox response before matching on them.",
+    "'tok_test_msi_error' is listed in the Error column but reads like a test token name, not an error code; included literally with that caveat.",
+    "No email, amount, or document rules are stated for card tests; 'any future date' has no concrete example.",
+    "The 3DS test cards page (https://developers.conekta.com/docs/activar-3d-secure-2) was not read.",
+    "https://developers.conekta.com/docs/errores-2 turned out to cover cash payouts (Retiros), not card charges; only its error 'type' table (api_error 500, processing_error 402, parameter_validation_error 422, ...) is generic and was not used for card decline codes.",
+    "retryable false only where docs say to retry with a different/valid card; Category mapping is our own classification."
+  ]
+}

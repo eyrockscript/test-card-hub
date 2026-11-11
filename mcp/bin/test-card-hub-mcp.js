@@ -10,6 +10,7 @@ import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { GATEWAY_PRESETS } from '../core/data/gateway-presets.js';
+import { GATEWAY_RESEARCH } from '../src/data/gateway-research/index.js';
 import { loadBackup } from '../src/infrastructure/backup-file.js';
 import { parseBackupPath } from '../src/interfaces/cli-args.js';
 import { createServer } from '../src/interfaces/server.js';
@@ -30,6 +31,7 @@ const fileSystem = {
 const server = createServer({
   version,
   presets: GATEWAY_PRESETS,
+  research: GATEWAY_RESEARCH,
   now: () => new Date(),
   loadEnvironments: () => loadBackup(backupPath, fileSystem),
 });

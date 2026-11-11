@@ -11,12 +11,14 @@ export function checkoutMatrixPrompt(checkoutUrl, gateway) {
     `1. Call list_gateways and read the hint for "${gateway}" (expiry, CVV and cardholder-name rules).`,
     `2. Call find_test_cards with gateway "${gateway}" once per outcome: approved, declined, insufficient, review.`,
     '3. Before typing any number, call validate_card. Stop if the verdict is "possibly_real_card".',
-    '4. With a browser tool (e.g. Playwright MCP), open the checkout, fill the card, expiry, CVV and postal code, '
-      + 'and submit. Follow the gateway hint when it overrides the fill values.',
-    '5. Record what the UI showed for each scenario and whether it matches the expected outcome.',
+    '4. With a browser tool (e.g. Playwright MCP), open the checkout and type every value in the card\'s "fill" '
+      + 'object (card, expiry, CVV, postal code, and the cardholder name or email when present), then submit.',
+    '5. Record what the UI showed for each scenario and whether it matches the expected outcome. When the '
+      + 'checkout or its API returns a decline code, call explain_decline to check the message shown to the customer.',
     '',
     'Finish with a table: outcome | card (last 4) | expected | observed | pass/fail. '
-      + 'Flag any scenario where the checkout shows success for a declined card, or a generic error with no message.',
+      + 'Flag any scenario where the checkout shows success for a declined card, or a generic error with no message. '
+      + `Offer to save the scenarios as a regression suite with generate_checkout_tests (gateway "${gateway}").`,
   ].join('\n');
 }
 

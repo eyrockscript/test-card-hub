@@ -1,0 +1,103 @@
+{
+  "gateway": "payu-latam",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://developers.payulatam.com/latam/en/docs/getting-started/test-your-solution.html",
+    "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": {
+        "rule": "month_and_future_year_by_outcome",
+        "approved": { "rule": "month_less_than_6_year_after_current", "example": "05/202_" },
+        "declined": { "rule": "month_greater_than_6_year_after_current", "example": "07/202_" },
+        "note": "The docs write the examples with a placeholder last digit: 05/202_ and 07/202_."
+      },
+      "cvv": {
+        "approved": { "value": "777", "amexValue": "7777" },
+        "declined": { "value": "666", "amexValue": "6666" }
+      },
+      "cardholderName": {
+        "rule": "contains",
+        "approved": "APPROVED",
+        "declined": "REJECTED",
+        "note": "The docs say to include APPROVED or REJECTED in the cardholder's name. No name value for PENDING is documented. Pending is simulated with the antifraud emails."
+      },
+      "email": {
+        "rule": "antifraud_test_emails",
+        "values": {
+          "approved@payu.com": "Antifraud lets the transaction proceed",
+          "rejected@payu.com": "Antifraud marks it risky and assigns REJECTED",
+          "pending_approved@payu.com": "PENDING first, then can proceed after 5 minutes",
+          "pending_rejected@payu.com": "PENDING first, then REJECTED after 5 minutes"
+        },
+        "note": "Use with the appropriate test card data. The docs warn that antifraud approval does not guarantee final approval; the bank-authorization values (name, CVV, expiry) still apply."
+      },
+      "amount": { "rule": "min_usd_equivalent", "value": 1, "currency": "USD", "note": "Always send at least the equivalent of 1 USD in any currency. Lower amounts may produce failed or invalid tests." },
+      "testFlag": { "note": "The test parameter and the transaction description can also affect the outcome. If it does not work with test=false, try test=true." },
+      "cardNumber": { "note": "Use a valid number for the brand sent in the request: an online card generator or a listed country card." },
+      "document": null
+    },
+    "byCard": [
+      { "cardNumber": "4268070000000002", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4268070000000002", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "4931580001642617", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4931580001642617", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "4147463011110059", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4147463011110059", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "4147463011110083", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4147463011110083", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "4265880000000007", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4265880000000007", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "4415490000000004", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "4415490000000004", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "5491380000000001", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "5491380000000001", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "5204740000002745", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "5204740000002745", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "5256780000000007", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "5256780000000007", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "5579220000000012", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "777", "expiryMonth": "<6" } },
+      { "cardNumber": "5579220000000012", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "666", "expiryMonth": ">6" } },
+      { "cardNumber": "376675000000005", "outcome": "approved", "fields": { "cardholderName": "APPROVED", "cvv": "7777", "expiryMonth": "<6" } },
+      { "cardNumber": "376675000000005", "outcome": "declined", "fields": { "cardholderName": "REJECTED", "cvv": "6666", "expiryMonth": ">6" } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "INSUFFICIENT_FUNDS", "officialMeaning": "The account had insufficient funds.", "category": "insufficient_funds", "retryable": null, "polResponseCode": "6", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "ENTITY_DECLINED", "officialMeaning": "Declined by the bank or financial network because of an error.", "category": "card_declined", "retryable": null, "polResponseCode": "5", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "PAYMENT_NETWORK_REJECTED", "officialMeaning": "The financial network rejected the transaction.", "category": "card_declined", "retryable": null, "polResponseCode": "4", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "INVALID_CARD", "officialMeaning": "The card is invalid.", "category": "incorrect_number", "retryable": false, "polResponseCode": "7", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "EXPIRED_CARD", "officialMeaning": "The card has expired.", "category": "expired_card", "retryable": false, "polResponseCode": "9", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "RESTRICTED_CARD", "officialMeaning": "The card has a restriction.", "category": "card_declined", "retryable": null, "polResponseCode": "10", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "INVALID_EXPIRATION_DATE_OR_SECURITY_CODE", "officialMeaning": "The security code or expiration date was invalid.", "category": "incorrect_cvc", "retryable": null, "polResponseCode": "12", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "CONTACT_THE_ENTITY", "officialMeaning": "The payer should contact their bank.", "category": "card_declined", "retryable": null, "polResponseCode": "8", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "CREDIT_CARD_NOT_AUTHORIZED_FOR_INTERNET_TRANSACTIONS", "officialMeaning": "The card is not authorized for internet transactions.", "category": "card_declined", "retryable": null, "polResponseCode": "22", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "EXCEEDED_AMOUNT", "officialMeaning": "The transaction exceeds the amount set by the bank.", "category": "limit_exceeded", "retryable": null, "polResponseCode": "17", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "NOT_ACCEPTED_TRANSACTION", "officialMeaning": "The bank did not accept the transaction for some reason.", "category": "card_declined", "retryable": null, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "INVALID_TRANSACTION", "officialMeaning": "The financial network reported the transaction as invalid.", "category": "invalid_request", "retryable": null, "polResponseCode": "14", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "ANTIFRAUD_REJECTED", "officialMeaning": "Rejected by PayU's anti-fraud system.", "category": "fraud_suspected", "retryable": false, "polResponseCode": "23", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "BANK_FRAUD_REJECTED", "officialMeaning": "Rejected for suspected fraud at the financial institution.", "category": "fraud_suspected", "retryable": false, "polResponseCode": "23", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "THREEDS_REJECTED", "officialMeaning": "Rejected due to 3DS authentication failure.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "REPEAT_TRANSACTION", "officialMeaning": "The transaction must be repeated.", "category": "processing_error", "retryable": true, "polResponseCode": "13", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "BANK_UNREACHABLE", "officialMeaning": "The bank was not available.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "ENTITY_MESSAGING_ERROR", "officialMeaning": "The financial network reported a communication error with the bank.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "PAYMENT_NETWORK_NO_CONNECTION", "officialMeaning": "Could not connect to the financial network.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "PAYMENT_NETWORK_NO_RESPONSE", "officialMeaning": "The financial network did not respond.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "PAYMENT_NETWORK_BAD_RESPONSE", "officialMeaning": "The financial network returned an inconsistent message.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "INTERNAL_PAYMENT_PROVIDER_ERROR", "officialMeaning": "A system error occurred while trying to process the payment.", "category": "processing_error", "retryable": true, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "ERROR", "officialMeaning": "General error.", "category": "processing_error", "retryable": null, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "EXPIRED_TRANSACTION", "officialMeaning": "The transaction timed out.", "category": "other", "retryable": null, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "PENDING_TRANSACTION_REVIEW", "officialMeaning": "Transaction stopped for review, e.g. by security filters.", "category": "other", "retryable": null, "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" },
+    { "code": "ABANDONED_TRANSACTION", "officialMeaning": "Transaction abandoned by the payer.", "category": "other", "retryable": null, "polResponseCode": "19", "sourceUrl": "https://developers.payulatam.com/latam/en/docs/getting-started/response-codes-and-variables.html" }
+  ],
+  "gaps": [
+    "The docs tie no specific card number to an outcome. The outcome comes from cardholder name, CVV and expiry month on any valid card. So every Mexico card has the same approved and declined field sets. The repo preset that labels 5204740000002745 as the 'declined' Mastercard is not supported by the docs: that card is simply listed under MASTERCARD Credit Card for Mexico.",
+    "The test page states no cardholder name value for PENDING. Pending is only documented through the antifraud emails pending_approved@payu.com and pending_rejected@payu.com.",
+    "The expiry examples in the docs use a placeholder (05/202_, 07/202_). Month exactly 6 is not covered by either rule.",
+    "The test page gives no document or ID rule for Mexico. The Payments API Mexico page was not fetched.",
+    "The response-codes HTML table wraps a few long codes with a stray space (e.g. 'CREDIT_CARD_NOT_AUTHORIZED _FOR_INTERNET_TRANSACTIONS', 'INVALID_EXPIRATION_DATE_OR _SECURITY_CODE'). The literal is recorded without the space. Confirm against a real API response.",
+    "polResponseCode values come from the 'Response Codes Sent to the Response URL' table. BANK_UNREACHABLE's polResponseCode was cut off in the extract and is omitted.",
+    "The docs give no retry guidance except REPEAT_TRANSACTION ('You must repeat the transaction'). retryable=true on network and provider errors is an inference from category processing_error."
+  ]
+}

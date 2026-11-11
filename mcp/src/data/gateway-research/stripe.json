@@ -1,0 +1,89 @@
+{
+  "gateway": "stripe",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://docs.stripe.com/testing",
+    "https://docs.stripe.com/declines/codes"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": { "rule": "any_future", "example": "12/34" },
+      "cvc": { "rule": "any_3_digits", "amexRule": "any_4_digits", "note": "Use any three-digit CVC (four digits for American Express cards)." },
+      "cardholderName": { "rule": "any_value", "note": "Use any value you like for other form fields." },
+      "email": { "rule": "any_value" },
+      "postalCode": { "rule": "any_value", "note": "Radar postal-code checks only run if a postal code is provided." },
+      "apiKeys": "test API keys only",
+      "invalidDataTriggers": [
+        { "field": "expiryMonth", "value": "13", "resultCode": "invalid_expiry_month" },
+        { "field": "expiryYear", "value": "95", "resultCode": "invalid_expiry_year", "note": "a year up to 50 years in the past" },
+        { "field": "cvc", "value": "99", "resultCode": "invalid_cvc", "note": "two-digit number" },
+        { "field": "cardNumber", "value": "4242424242424241", "resultCode": "incorrect_number", "note": "fails the Luhn check" }
+      ],
+      "notes": [
+        "Card-level state from one test can affect later tests that use the same card; use a different test card per independent scenario.",
+        "Cards that simulate issuer declines cannot be attached to a Customer; use 4000000000000341 (decline after attaching) for that.",
+        "Radar-blocked payments result in card errors with an error code of fraud (per testing page)."
+      ]
+    },
+    "byCard": [
+      { "cardNumber": "4000000000000002", "outcome": "declined", "fields": { "expectedErrorCode": "card_declined", "expectedDeclineCode": "generic_decline" } },
+      { "cardNumber": "4000000000009995", "outcome": "insufficient", "fields": { "expectedErrorCode": "card_declined", "expectedDeclineCode": "insufficient_funds" } },
+      { "cardNumber": "4000000000009987", "outcome": "declined", "fields": { "expectedErrorCode": "card_declined", "expectedDeclineCode": "lost_card" } },
+      { "cardNumber": "4000000000009979", "outcome": "declined", "fields": { "expectedErrorCode": "card_declined", "expectedDeclineCode": "stolen_card" } },
+      { "cardNumber": "4000000000000069", "outcome": "declined", "fields": { "expectedErrorCode": "expired_card", "expectedDeclineCode": null } },
+      { "cardNumber": "4000000000000127", "outcome": "other", "fields": { "cvc": { "rule": "required_any_3_digits", "note": "Stripe skips the CVC check if CVC is omitted, so it cannot fail." }, "expectedErrorCode": "incorrect_cvc", "expectedDeclineCode": null } },
+      { "cardNumber": "4000000000000119", "outcome": "declined", "fields": { "expectedErrorCode": "processing_error", "expectedDeclineCode": null } },
+      { "cardNumber": "4242424242424241", "outcome": "declined", "fields": { "expectedErrorCode": "incorrect_number", "expectedDeclineCode": null } },
+      { "cardNumber": "4000000000006975", "outcome": "declined", "fields": { "expectedErrorCode": "card_declined", "expectedDeclineCode": "card_velocity_exceeded" } },
+      { "cardNumber": "4000000000000341", "outcome": "declined", "fields": { "note": "Attaching to a Customer succeeds; charging the customer fails." } },
+      { "cardNumber": "4100000000000019", "outcome": "declined", "fields": { "note": "Risk level highest; Radar always blocks it." } },
+      { "cardNumber": "4000000000004954", "outcome": "declined", "fields": { "note": "Risk level highest; Radar might block it depending on settings." } },
+      { "cardNumber": "4000000000009235", "outcome": "review", "fields": { "note": "Risk level elevated; Radar might queue it for review." } },
+      { "cardNumber": "4000000000000101", "outcome": "other", "fields": { "cvc": { "rule": "required_any_3_digits", "note": "If you provide a CVC number, the CVC check fails." } } },
+      { "cardNumber": "4000000000000036", "outcome": "other", "fields": { "postalCode": { "rule": "required_any_valid", "note": "If you provide a postal code, the postal code check fails." } } },
+      { "cardNumber": "4000000000000010", "outcome": "other", "fields": { "note": "Address postal code check and address line 1 check both fail; Radar might block depending on settings." } },
+      { "cardNumber": "4000002760003184", "outcome": "review", "fields": { "note": "Requires authentication on all transactions." } },
+      { "cardNumber": "4000008260003178", "outcome": "insufficient", "fields": { "note": "Requires authentication for one-time payments; declined with insufficient_funds even after successful authentication." } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "generic_decline", "officialMeaning": "Declined for an unknown reason, or Stripe Radar / Adaptive Acceptance blocked the payment.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "insufficient_funds", "officialMeaning": "The card has insufficient funds; customer should use an alternative payment method.", "category": "insufficient_funds", "retryable": false, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "lost_card", "officialMeaning": "Declined because the card is reported lost; present to customer as generic_decline.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "stolen_card", "officialMeaning": "Declined because the card is reported stolen; present to customer as generic_decline.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "expired_card", "officialMeaning": "The card has expired; customer needs to use another card.", "category": "expired_card", "retryable": false, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "incorrect_cvc", "officialMeaning": "The CVC number is incorrect; retry with the correct CVC.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "invalid_cvc", "officialMeaning": "The CVC number is incorrect; retry with the correct CVC.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "processing_error", "officialMeaning": "An error occurred while processing the card; ask the customer to attempt the payment again.", "category": "processing_error", "retryable": true, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "incorrect_number", "officialMeaning": "The card number is incorrect.", "category": "incorrect_number", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "invalid_number", "officialMeaning": "The card number is incorrect.", "category": "incorrect_number", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "invalid_expiry_month", "officialMeaning": "The expiration month is invalid.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "invalid_expiry_year", "officialMeaning": "The expiration year is invalid.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "card_velocity_exceeded", "officialMeaning": "Customer exceeded the balance, credit limit, or transaction amount limit on the card.", "category": "limit_exceeded", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "withdrawal_count_limit_exceeded", "officialMeaning": "Customer exceeded the balance or credit limit on the card; use an alternative payment method.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "fraudulent", "officialMeaning": "Declined because Stripe suspects it is fraudulent; present as generic_decline.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "merchant_blacklist", "officialMeaning": "Matches a value on the Stripe user's block list; present as generic_decline.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "do_not_honor", "officialMeaning": "Declined for an unknown reason; customer should contact the issuer.", "category": "do_not_honor", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "call_issuer", "officialMeaning": "Declined for an unknown reason; customer should contact the issuer.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "pickup_card", "officialMeaning": "Customer can't use this card (possibly reported lost or stolen).", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "restricted_card", "officialMeaning": "Customer can't use this card (possibly reported lost or stolen).", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "transaction_not_allowed", "officialMeaning": "Declined for an unknown reason; customer should contact the issuer.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "card_not_supported", "officialMeaning": "The card doesn't support this type of purchase.", "category": "card_declined", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "currency_not_supported", "officialMeaning": "The card doesn't support the specified currency.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "invalid_amount", "officialMeaning": "The payment amount is invalid or exceeds the allowed amount.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "duplicate_transaction", "officialMeaning": "A transaction with identical amount and card information was submitted very recently.", "category": "other", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "incorrect_zip", "officialMeaning": "The postal code is incorrect.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "authentication_required", "officialMeaning": "Declined because the transaction requires authentication such as 3D Secure.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "issuer_not_available", "officialMeaning": "The card issuer couldn't be reached; attempt the payment again.", "category": "processing_error", "retryable": true, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "reenter_transaction", "officialMeaning": "The issuer couldn't process the payment for an unknown reason; attempt again.", "category": "processing_error", "retryable": true, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "approve_with_id", "officialMeaning": "The payment can't be authorized; attempt the payment again.", "category": "other", "retryable": true, "sourceUrl": "https://docs.stripe.com/declines/codes" },
+    { "code": "testmode_decline", "officialMeaning": "A Stripe test card number was used (in live mode); a genuine card must be used.", "category": "invalid_request", "retryable": false, "sourceUrl": "https://docs.stripe.com/declines/codes" }
+  ],
+  "gaps": [
+    "retryable convention: true only where the 'Next steps' column says to attempt the payment again unchanged; false where it says to use another card / alternative payment method; null otherwise (including 'try again using the correct X', which is a retry with corrected input).",
+    "Category mapping is our own classification; Stripe does not publish categories.",
+    "31 codes kept (slightly above the ~25 cap) from the card decline codes table of 50; omitted PIN/card-present codes, deprecated codes (do_not_try_again, try_again_later) and other generic 'unknown reason' variants.",
+    "The testing page says Radar-blocked payments produce an error code of 'fraud'; the exact decline_code for Radar blocks on 4100000000000019 is not stated on the testing page, so it is not asserted.",
+    "No cardholder-name, email or amount values control sandbox outcomes on the testing page (besides location-formatted emails for Checkout, not card outcomes)."
+  ]
+}

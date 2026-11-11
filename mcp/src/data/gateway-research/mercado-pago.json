@@ -1,0 +1,95 @@
+{
+  "gateway": "mercado-pago",
+  "verifiedAt": "2026-11-10",
+  "sources": [
+    "https://www.mercadopago.com.mx/developers/es/docs/your-integrations/test/cards",
+    "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results",
+    "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/collection-results/introduction"
+  ],
+  "scenarioFields": {
+    "defaults": {
+      "expiry": { "rule": "fixed", "value": "11/30" },
+      "cvv": { "rule": "fixed", "value": "123", "amexValue": "1234" },
+      "cardholderName": {
+        "rule": "drives_outcome",
+        "note": "Any test card can be combined with any cardholder name below; the name (Nombre y apellido del titular) selects the payment outcome.",
+        "scenarios": [
+          { "value": "APRO", "officialStatus": "Pago aprobado", "outcome": "approved" },
+          { "value": "OTHE", "officialStatus": "Rechazado por error general", "outcome": "declined" },
+          { "value": "CONT", "officialStatus": "Pendiente de pago", "outcome": "review" },
+          { "value": "CALL", "officialStatus": "Rechazado con validación para autorizar", "outcome": "other" },
+          { "value": "FUND", "officialStatus": "Rechazado por importe insuficiente", "outcome": "insufficient" },
+          { "value": "SECU", "officialStatus": "Rechazado por código de seguridad inválido", "outcome": "other" },
+          { "value": "EXPI", "officialStatus": "Rechazado debido a un problema de fecha de vencimiento", "outcome": "other" },
+          { "value": "FORM", "officialStatus": "Rechazado debido a un error de formulario", "outcome": "other" },
+          { "value": "CARD", "officialStatus": "Rechazado por falta de card_number", "outcome": "other" },
+          { "value": "INST", "officialStatus": "Rechazado por cuotas invalidas", "outcome": "other" },
+          { "value": "DUPL", "officialStatus": "Rechazado por pago duplicado", "outcome": "declined" },
+          { "value": "LOCK", "officialStatus": "Rechazado por tarjeta deshabilitada", "outcome": "declined" },
+          { "value": "CTNA", "officialStatus": "Rechazado por tipo de tarjeta no permitida", "outcome": "declined" },
+          { "value": "ATTE", "officialStatus": "Rechazado debido a intentos excedidos del pin de la tarjeta", "outcome": "declined" },
+          { "value": "BLAC", "officialStatus": "Rechazado por estar en lista negra", "outcome": "declined" },
+          { "value": "UNSU", "officialStatus": "No soportado", "outcome": "other" },
+          { "value": "TEST", "officialStatus": "Usado para aplicar regla de montos", "outcome": "other" }
+        ]
+      },
+      "document": { "rule": "required_unspecified", "note": "Page says to fill 'Tipo y número de documento' per the table, but the table gives no document type/number values for Mexico." },
+      "email": null,
+      "amount": null,
+      "testCards": [
+        { "cardNumber": "5474925432670366", "brand": "Mastercard", "type": "credit", "cvv": "123", "expiry": "11/30" },
+        { "cardNumber": "4075595716483764", "brand": "Visa", "type": "credit", "cvv": "123", "expiry": "11/30" },
+        { "cardNumber": "371180303257522", "brand": "American Express", "type": "credit", "cvv": "1234", "expiry": "11/30" },
+        { "cardNumber": "5579053461482647", "brand": "Mastercard", "type": "debit", "cvv": "123", "expiry": "11/30" },
+        { "cardNumber": "4189141221267633", "brand": "Visa", "type": "debit", "cvv": "123", "expiry": "11/30" }
+      ]
+    },
+    "byCard": [
+      { "cardNumber": "5474925432670366", "outcome": "approved", "fields": { "cardholderName": "APRO", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "4075595716483764", "outcome": "approved", "fields": { "cardholderName": "APRO", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "4189141221267633", "outcome": "insufficient", "fields": { "cardholderName": "FUND", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "5579053461482647", "outcome": "declined", "fields": { "cardholderName": "OTHE", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "371180303257522", "outcome": "other", "fields": { "cardholderName": "CALL", "cvv": "1234", "expiry": "11/30" } },
+      { "cardNumber": "4075595716483764", "outcome": "other", "fields": { "cardholderName": "SECU", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "5474925432670366", "outcome": "review", "fields": { "cardholderName": "CONT", "cvv": "123", "expiry": "11/30" } },
+      { "cardNumber": "4189141221267633", "outcome": "other", "fields": { "cardholderName": "EXPI", "cvv": "123", "expiry": "11/30" } }
+    ]
+  },
+  "declineCodes": [
+    { "code": "cc_rejected_insufficient_amount", "officialMeaning": "The payment method does not have enough funds.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_bad_filled_card_number", "officialMeaning": "Check card number.", "category": "incorrect_number", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_bad_filled_date", "officialMeaning": "Check expiration date.", "category": "expired_card", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_bad_filled_other", "officialMeaning": "Check data.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_bad_filled_security_code", "officialMeaning": "Check card security code.", "category": "incorrect_cvc", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_blacklist", "officialMeaning": "Your payment couldn't be processed (card on blacklist).", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_call_for_authorize", "officialMeaning": "Buyer must authorize the payment amount with the card issuer.", "category": "do_not_honor", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_card_disabled", "officialMeaning": "Card must be activated with the issuer, or use a different payment method.", "category": "card_declined", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_card_error", "officialMeaning": "Your payment couldn't be processed.", "category": "processing_error", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/collection-results/introduction" },
+    { "code": "cc_rejected_duplicated_payment", "officialMeaning": "A payment for that value was already made; to pay again use a different card or payment method.", "category": "other", "retryable": false, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_high_risk", "officialMeaning": "Payment rejected (risk); select a different payment method.", "category": "fraud_suspected", "retryable": false, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_invalid_installments", "officialMeaning": "The payment method does not process payments in that number of installments.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_max_attempts", "officialMeaning": "Allowed attempt limit reached; select a different card or payment method.", "category": "limit_exceeded", "retryable": false, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_other_reason", "officialMeaning": "The payment method did not process the payment.", "category": "card_declined", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_3ds_challenge", "officialMeaning": "Rejected for not passing the 3DS challenge.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_3ds_mandatory", "officialMeaning": "Rejected for not having a 3DS challenge when it is mandatory.", "category": "authentication_required", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_rejected_time_out", "officialMeaning": "Mercado Pago did not receive a response in the expected time.", "category": "processing_error", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "cc_amount_rate_limit_exceeded", "officialMeaning": "Exceeded the payment method's maximum allowed capacity (CAP).", "category": "limit_exceeded", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_insufficient_data", "officialMeaning": "Rejected because required mandatory payment information is missing.", "category": "invalid_request", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_by_bank", "officialMeaning": "Operation rejected by the bank.", "category": "card_declined", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_by_regulations", "officialMeaning": "Payment rejected by regulations.", "category": "other", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_high_risk", "officialMeaning": "Rejected due to risk assessment, credit scoring, or suspected fraud.", "category": "fraud_suspected", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_by_biz_rule", "officialMeaning": "Payment rejected by business rules.", "category": "other", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "rejected_other_reason", "officialMeaning": "Payment rejected for an unclassified reason.", "category": "other", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" },
+    { "code": "insufficient_amount", "officialMeaning": "Payment rejected due to insufficient amount.", "category": "insufficient_funds", "retryable": null, "sourceUrl": "https://www.mercadopago.com.mx/developers/en/docs/checkout-api-payments/response-handling/query-results" }
+  ],
+  "gaps": [
+    "The test-cards page does NOT map cardholder names (APRO, FUND, ...) to status_detail values; any such mapping would be inferred, so none is asserted.",
+    "The test-cards page asks to fill 'Tipo y número de documento' but provides no document values for Mexico.",
+    "No email or amount rule on the test-cards page; 'TEST' is described only as 'Usado para aplicar regla de montos' with no further detail.",
+    "Outcome labels per cardholder name (approved/declined/other...) are our classification of the official Spanish status text.",
+    "status_detail values come from the Checkout API (Payments) response-handling pages; the newer Orders API uses different codes (e.g. card_insufficient_amount, bad_filled_card_data) which were not read and are not included.",
+    "cc_rejected_card_error appears only on the collection-results page, not the query-results page.",
+    "Codes are listed with status 'rejected'; 'retryable' false only where docs say to use a different card/payment method.",
+    "Category mapping is our own classification."
+  ]
+}

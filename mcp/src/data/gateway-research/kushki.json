@@ -1,0 +1,17 @@
+{
+  "gateway": "kushki",
+  "verifiedAt": "2026-11-10",
+  "sources": [],
+  "scenarioFields": {
+    "defaults": {},
+    "byCard": []
+  },
+  "declineCodes": [],
+  "gaps": [
+    "BLOCKED: On 2026-11-10 every official Kushki docs page tried shows only a password gate. Rendered in a headless browser, https://docs.kushki.com/mx/getting-started/testing-your-integration/ displays 'Esta documentación requiere una contraseña para acceder'.",
+    "Also password-protected: https://docs.kushki.com/mx/card-payments/one-step-payments/error-codes/, https://api-docs.kushkipagos.com/es/mexico/online-payments/error-catalog, https://api-docs.kushkipagos.com/es/chile/online-payments/error-catalog and https://api-docs.kushkipagos.com/es/mexico ('This documentation requires a password to access'). docs.kushki.com/llms.txt and sitemap.xml return the same gated shell.",
+    "So nothing could be verified against an official source today, and no codes or field rules were recorded. The repo preset (src/data/gateway-presets.js, verifiedAt 2026-10-29) still lists 5451951574925480 approved (000), 4349001210846432 (021), 4349003000047015 (017), 4574441215190335 (017 at token), 4349008516656431 (019), 4349003243371321 (022), 4349001386781322 (023), plus 'any CVV and postal code; any future expiry'. These could NOT be re-verified.",
+    "A web-search summary (not a primary source) suggested Kushki code meanings vary by country. For example, 023 shows as 'FECHA DE EXPIRACIÓN NO VÁLIDA' in the Chile catalog but 'card blocked by the bank' in the MX preset. Not used, but the MX meaning of 023 should be confirmed once access is available.",
+    "Next step: get docs access (Kushki merchant/partner password) or confirm with Kushki support. Archive.org copies were not used because only official domains count as sources."
+  ]
+}
